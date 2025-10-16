@@ -28,7 +28,7 @@ A comprehensive mental wellness web application designed to support users' menta
 
 ## 🚀 Live Demo
 
-Visit the live application: [Revive Peace on Netlify]([https://your-netlify-url.netlify.app](https://thriving-sunburst-0b1edb.netlify.app/html/main.html))
+Visit the live application: [Revive Peace on Netlify]([https://your-netlify-url.netlify.app](https://thriving-sunburst-0b1edb.netlify.app/html/main.html)
 
 ## 🛠️ Technology Stack
 
