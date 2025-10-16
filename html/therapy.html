@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+	<meta name="robots" content="" />
+	<meta name="description" content="Revive Peace - Therapy" />
+	<meta property="og:title" content="Revive Peace - Therapy" />
+	<meta property="og:description" content="Revive Peace - Therapy" />
+	<meta property="og:image" content="Revive Peace - Therapy" />
+	<meta name="format-detection" content="telephone=no">
+	<!-- FAVICONS ICON -->
+	<link rel="icon" href="../images/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" type="image/x-icon" href="../images/favicon.png" />
+	<!-- PAGE TITLE HERE -->
+	<title>Revive Peace - Therapy</title>
+	<!-- MOBILE SPECIFIC -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- STYLESHEETS -->
+	<link rel="stylesheet" type="text/css" href="../css/plugins.css">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<link rel="stylesheet" type="text/css" href="../css/templete.css">
+	<link class="skin" rel="stylesheet" type="text/css" href="../css/skin/skin-1.css">
+	<style>
+		/* Transparent header styles */
+		.site-header {
+			background: transparent !important;
+			transition: all 0.3s ease;
+			position: fixed;
+			width: 100%;
+			z-index: 9999;
+		}
+		
+		.site-header.scrolled {
+			background: rgba(255, 255, 255, 1) !important;
+			backdrop-filter: blur(10px);
+			box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+		}
+		
+		/* Ensure content doesn't hide behind fixed header */
+		.page-content {
+			padding-top: 0;
+		}
+		
+		/* Logo visibility adjustments */
+		.logo-header img {
+			transition: all 0.3s ease;
+		}
+		
+		.site-header.scrolled .logo-header img {
+			filter: brightness(0.8);
+		}
+		
+		/* Ensure content starts where header ends */
+		.page-content {
+			margin-top: 20px; /* Added small top margin */
+		}
+		
+		/* Alternative: if header is fixed, use padding-top */
+		.page-content {
+			padding-top: 20px;
+		}
+		
+		/* Navigation styles */
+		.navbar-nav .nav-link {
+			color: #333 !important;
+			font-weight: 500;
+			padding: 15px 20px !important;
+			transition: all 0.3s ease;
+		}
+		
+		.navbar-nav .nav-link:hover {
+			color: #007bff !important;
+			background-color: rgba(0, 123, 255, 0.1);
+		}
+		
+		.dropdown-menu {
+			border: none;
+			box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+			border-radius: 10px;
+			padding: 10px 0;
+		}
+		
+		.dropdown-item {
+			padding: 10px 20px;
+			color: #333;
+			transition: all 0.3s ease;
+		}
+		
+		.dropdown-item:hover {
+			background-color: #f8f9fa;
+			color: #007bff;
+			transform: translateX(5px);
+		}
+		
+		.dropdown-item i {
+			margin-right: 10px;
+			width: 16px;
+			text-align: center;
+		}
+		
+		/* Logo positioning */
+		.logo-header {
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+		}
+		
+		/* Mobile responsive */
+		@media (max-width: 768px) {
+			.navbar-nav {
+				text-align: center;
+			}
+			
+			.logo-header {
+				justify-content: center;
+				margin-top: 15px;
+			}
+		}
+		
+		/* Feature content styles */
+		.feature-content {
+			padding: 20px 0;
+		}
+		
+		.feature-content h4 {
+			font-size: 28px;
+			font-weight: 600;
+			margin-bottom: 15px;
+		}
+		
+		.feature-content .lead {
+			font-size: 18px;
+			font-weight: 500;
+			color: #666;
+			margin-bottom: 20px;
+		}
+		
+		.feature-content p {
+			font-size: 16px;
+			line-height: 1.8;
+			color: #555;
+			margin-bottom: 20px;
+		}
+		
+		.floating-icon {
+			margin-right: 10px;
+			animation: float 3s ease-in-out infinite;
+		}
+		
+		.floating-element {
+			animation: float 4s ease-in-out infinite;
+			opacity: 0.8;
+			transition: all 0.3s ease;
+		}
+		
+		.floating-element:hover {
+			opacity: 1;
+			transform: scale(1.1);
+		}
+		
+		.feature-highlights {
+			margin-top: 20px;
+		}
+		
+		.highlight-tag {
+			display: inline-block;
+			background: linear-gradient(45deg, #007bff, #0056b3);
+			color: white;
+			padding: 8px 16px;
+			border-radius: 20px;
+			font-size: 12px;
+			font-weight: 500;
+			margin: 5px;
+			box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+			transition: all 0.3s ease;
+		}
+		
+		.highlight-tag:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+		}
+		
+		@keyframes float {
+			0%, 100% {
+				transform: translateY(0px);
+			}
+			50% {
+				transform: translateY(-10px);
+			}
+		}
+		
+		.row:nth-child(even) .floating-element {
+			animation-delay: 0.5s;
+		}
+		
+		.row:nth-child(odd) .floating-element {
+			animation-delay: 1s;
+		}
+		
+		/* Button styles */
+		.site-button {
+			display: inline-block;
+			padding: 12px 30px;
+			background: linear-gradient(45deg, #007bff, #0056b3);
+			color: white;
+			text-decoration: none;
+			border-radius: 25px;
+			font-weight: 500;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+		}
+		
+		.site-button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+			color: white;
+			text-decoration: none;
+		}
+	</style>
+</head>
+<body id="bg">
+<div id="loading-area"></div>
+<div class="page-wraper">
+    	<!-- header -->
+	<header class="site-header header-style-5 mo-left light">
+		<div class="sticky-header main-bar-wraper navbar-expand-lg">
+			<div class="main-bar clearfix ">
+				<div class="container clearfix">
+					<div class="row align-items-center">
+						<!-- Logo on the left -->
+						<div class="col-lg-4 col-md-4 col-sm-12">
+							<div class="logo-header">
+								<a href="main.html"><img src="../images/logo.png" width="193" height="89" alt=""></a>
+							</div>
+						</div>
+						<!-- Navigation Menu on the right -->
+						<div class="col-lg-8 col-md-8 col-sm-12 text-right">
+							<nav class="navbar navbar-expand-lg justify-content-end">
+								<ul class="navbar-nav">
+									<li class="nav-item">
+										<a class="nav-link" href="main.html">Home</a>
+									</li>
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+											Features
+										</a>
+										<div class="dropdown-menu dropdown-menu-right">
+											<a class="dropdown-item" href="https://notknown.app.n8n.cloud/webhook/6d3062ae-c732-4b6a-a8c4-a8a4e1bc2872/chat">
+												<i class="fa fa-comments"></i> AI Chat Bot
+											</a>
+											<a class="dropdown-item" href="journaling.html">
+												<i class="fa fa-book"></i> Journaling
+											</a>
+											<a class="dropdown-item" href="binaural.html">
+												<i class="fa fa-headphones"></i> Binaural Beats
+											</a>
+											<a class="dropdown-item" href="therapy.html">
+												<i class="fa fa-heart"></i> Therapy
+											</a>
+											<a class="dropdown-item" href="games.html">
+												<i class="fa fa-gamepad"></i> Games
+											</a>
+											<a class="dropdown-item" href="dashboard.html">
+												<i class="fa fa-tachometer"></i> Dashboard
+											</a>
+										</div>
+									</li>
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+											Games
+										</a>
+										<div class="dropdown-menu dropdown-menu-right">
+											<a class="dropdown-item" href="games.html">
+												<i class="fa fa-gamepad"></i> All Games
+											</a>
+											<a class="dropdown-item" href="word-quest.html">
+												<i class="fa fa-puzzle-piece"></i> Word Quest
+											</a>
+											<a class="dropdown-item" href="hangman.html">
+												<i class="fa fa-user-secret"></i> Hangman
+											</a>
+											<a class="dropdown-item" href="simon-says.html">
+												<i class="fa fa-circle"></i> Simon Says
+											</a>
+											<a class="dropdown-item" href="maze-navigation.html">
+												<i class="fa fa-sitemap"></i> Maze Navigation
+											</a>
+											<a class="dropdown-item" href="puzzle-challenge.html">
+												<i class="fa fa-th"></i> Puzzle Challenge
+											</a>
+											<a class="dropdown-item" href="reflex-click.html">
+												<i class="fa fa-mouse-pointer"></i> Reflex Click
+											</a>
+											<a class="dropdown-item" href="zen-garden.html">
+												<i class="fa fa-tree"></i> Zen Garden
+											</a>
+										</div>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="help.html">Help</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="Login.html">Login</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="Signup.html">Sign Up</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- header END -->
+    <!-- Content -->
+    <div class="page-content">
+		<!-- Therapy Section -->
+        <div class="section-full bg-white content-inner-2">
+            <div class="container">
+                <div class="section-content">
+                    <div class="row">
+                        <div class="col-lg-12 text-center section-head">
+                            <h3 class="h3"><span class="text-primary">💆‍♀️ Therapy & Wellness</span></h3>
+							<div class="rdx-separator-outer "><div class="rdx-separator bg-primary style-liner"></div></div>
+                            <div class="clear"></div>
+                            <p>Comprehensive tools for holistic mental and physical well-being.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Calm Music -->
+                    <div class="row m-b50 align-items-center">
+                        <div class="col-lg-8">
+                            <div class="feature-content">
+                                <h4 class="text-primary m-b20">
+                                    <i class="fa fa-music floating-icon"></i> 
+                                    Calm Music Collection
+                                </h4>
+                                <p class="lead m-b20">Curated sounds for every moment of your day</p>
+                                <p class="m-b20">Immerse yourself in our carefully selected collection of ambient, classical, and acoustic tracks. Each piece is chosen to reduce stress hormones, improve mood, and create the perfect atmosphere for work, relaxation, or sleep.</p>
+                                <div class="feature-highlights">
+                                    <span class="highlight-tag">Stress Reduction</span>
+                                    <span class="highlight-tag">Mood Enhancement</span>
+                                    <span class="highlight-tag">Better Sleep</span>
+                                    <span class="highlight-tag">Productivity Boost</span>
+                                </div>
+                                <a href="calm-music.html" class="site-button radius-xl m-t20">
+                                    <span>Start Listening</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 text-center">
+                            <div class="floating-element">
+                                <i class="fa fa-music fa-4x text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Meditation -->
+                    <div class="row m-b50 align-items-center">
+                        <div class="col-lg-4 text-center">
+                            <div class="floating-element">
+                                <i class="fa fa-leaf fa-4x text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="feature-content">
+                                <h4 class="text-primary m-b20">
+                                    <i class="fa fa-leaf floating-icon"></i> 
+                                    Guided Meditation
+                                </h4>
+                                <p class="lead m-b20">Develop inner peace and emotional resilience through mindfulness</p>
+                                <p class="m-b20">Embark on a journey of self-discovery with our guided meditation sessions. From beginners to advanced practitioners, our mindfulness practices help reduce anxiety, improve emotional regulation, and cultivate lasting inner peace.</p>
+                                <div class="feature-highlights">
+                                    <span class="highlight-tag">Anxiety Reduction</span>
+                                    <span class="highlight-tag">Emotional Balance</span>
+                                    <span class="highlight-tag">Mindfulness</span>
+                                    <span class="highlight-tag">Inner Peace</span>
+                                </div>
+                                <a href="meditation.html" class="site-button radius-xl m-t20">
+                                    <span>Begin Meditation</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Yoga -->
+                    <div class="row m-b50 align-items-center">
+                        <div class="col-lg-8">
+                            <div class="feature-content">
+                                <h4 class="text-primary m-b20">
+                                    <i class="fa fa-heart floating-icon"></i> 
+                                    Gentle Yoga Practice
+                                </h4>
+                                <p class="lead m-b20">Nurture your body and mind through mindful movement</p>
+                                <p class="m-b20">Discover the transformative power of gentle yoga routines designed for all skill levels. Our yoga sessions focus on flexibility, strength, and mental clarity, helping you find balance and peace through mindful movement and breathing.</p>
+                                <div class="feature-highlights">
+                                    <span class="highlight-tag">Flexibility</span>
+                                    <span class="highlight-tag">Strength Building</span>
+                                    <span class="highlight-tag">Mental Clarity</span>
+                                    <span class="highlight-tag">Body-Mind Connection</span>
+                                </div>
+                                <a href="yoga.html" class="site-button radius-xl m-t20">
+                                    <span>Start Yoga</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 text-center">
+                            <div class="floating-element">
+                                <i class="fa fa-heart fa-4x text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Content END-->
+    <button class="scroltop fa fa-caret-up" ></button>
+</div>
+<script src="../js/jquery.min.js"></script>
+<script src="../plugins/bootstrap/js/popper.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="../plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+<script src="../plugins/magnific-popup/magnific-popup.js"></script>
+<script src="../plugins/counter/waypoints-min.js"></script>
+<script src="../plugins/counter/counterup.min.js"></script>
+<script src="../plugins/imagesloaded/imagesloaded.js"></script>
+<script src="../plugins/masonry/masonry-3.1.4.js"></script>
+<script src="../plugins/masonry/masonry.filter.js"></script>
+<script src="../plugins/owl-carousel/owl.carousel.js"></script>
+<script src="../js/custom.js"></script>
+<script src="../js/dz.carousel.js"></script>
+<script src="../js/dz.ajax.js"></script>
+<script>
+	// Header scroll effect
+	window.addEventListener('scroll', function() {
+		const header = document.querySelector('.site-header');
+		if (window.scrollY > 50) {
+			header.classList.add('scrolled');
+		} else {
+			header.classList.remove('scrolled');
+		}
+	});
+</script>
+</body>
+</html> 

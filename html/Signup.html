@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup Form</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/Signup.css" />
+  </head>
+  <body>
+    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark mode">🌙</button>
+    <div class="container">
+      <div class="form-card">
+        <!-- Title -->
+        <div class="title">Signup</div>
+
+        <!-- Subtitle -->
+        <div class="subtitle">to get started</div>
+
+        <!-- Username Input -->
+        <input
+          type="text"
+          class="input-field username-input"
+          placeholder="Username"
+          id="username"
+        />
+
+        <!-- Email Input -->
+        <input
+          type="email"
+          class="input-field email-input filled"
+          value=""
+          id="email"
+          placeholder="Email"
+        />
+
+        <!-- Password Input -->
+        <input
+          type="password"
+          class="input-field password-input"
+          placeholder="Password"
+          id="password"
+        />
+
+        <!-- Confirm Password Input -->
+        <input
+          type="password"
+          class="input-field confirm-password-input"
+          placeholder="Confirm Password"
+          id="confirmPassword"
+        />
+
+        <!-- Terms Checkbox -->
+        <div class="checkbox-container">
+          <input type="checkbox" class="checkbox" id="terms" />
+          <label for="terms" class="checkbox-label">
+            Agree to Our terms and Conditions
+          </label>
+        </div>
+
+        <!-- Continue Button -->
+        <button class="continue-button" onclick="handleContinue()">
+          <span class="button-text">Continue</span>
+        </button>
+
+        <!-- Login Link -->
+        <div class="login-link">
+          <span class="login-text login-text-normal">Already registered? </span>
+          <span class="login-text login-text-bold" onclick="handleLogin()"
+            >Login</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Handle input focus states
+      document.querySelectorAll(".input-field").forEach((input) => {
+        input.addEventListener("input", function () {
+          if (this.value.trim() !== "") {
+            this.classList.add("filled");
+          } else {
+            this.classList.remove("filled");
+          }
+        });
+      });
+
+      // Handle form submission
+      function handleContinue() {
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+        const terms = document.getElementById("terms").checked;
+
+        if (!username || !email || !password || !confirmPassword) {
+          alert("Please fill in all fields");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alert("Passwords do not match");
+          return;
+        }
+
+        if (!terms) {
+          alert("Please agree to the terms and conditions");
+          return;
+        }
+
+        // Handle form submission logic here
+        console.log("Form submitted:", { username, email, password, terms });
+        window.location.href = "main.html";
+      }
+
+      // Handle login link click
+      function handleLogin() {
+        // Redirect to login page or handle login logic
+        window.location.href = "Login.html";
+      }
+
+      // Theme toggle functionality
+      const themeToggle = document.getElementById('theme-toggle');
+      const body = document.body;
+      // Check localStorage for theme preference
+      let darkMode = localStorage.getItem('darkMode') === 'true';
+      if (darkMode) {
+        body.classList.add('dark-mode');
+        themeToggle.textContent = '☀️';
+        themeToggle.setAttribute('aria-label', 'Toggle light mode');
+      } else {
+        body.classList.remove('dark-mode');
+        themeToggle.textContent = '🌙';
+        themeToggle.setAttribute('aria-label', 'Toggle dark mode');
+      }
+      themeToggle.addEventListener('click', () => {
+        darkMode = !darkMode;
+        localStorage.setItem('darkMode', darkMode);
+        if (darkMode) {
+          body.classList.add('dark-mode');
+          themeToggle.textContent = '☀️';
+          themeToggle.setAttribute('aria-label', 'Toggle light mode');
+        } else {
+          body.classList.remove('dark-mode');
+          themeToggle.textContent = '🌙';
+          themeToggle.setAttribute('aria-label', 'Toggle dark mode');
+        }
+      });
+    </script>
+  </body>
+</html>
+

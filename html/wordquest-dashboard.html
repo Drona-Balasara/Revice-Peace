@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Quest Dashboard - Revive Peace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#e0f2f1 0%,#f3e5f5 50%,#e3f2fd 100%);margin:0;padding:20px;min-height:100vh;}.dashboard-container{max-width:900px;margin:0 auto;background:white;border-radius:16px;box-shadow:0 8px 32px rgba(31,38,135,0.15);overflow:hidden;}.dashboard-header{background:linear-gradient(135deg,#1565c0 0%,#1976d2 100%);color:white;padding:30px;text-align:center;}.dashboard-header h1{margin:0 0 10px 0;font-size:2.2em;}.dashboard-header p{margin:0;opacity:0.9;font-size:1.1em;}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;padding:30px;}.stat-card{background:linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%);border-radius:12px;padding:25px;text-align:center;border-left:4px solid #1565c0;}.stat-number{font-size:2.2em;font-weight:700;color:#1565c0;margin-bottom:10px;}.stat-label{font-size:1.1em;color:#666;font-weight:600;}.recent-games{padding:30px;}.game-history{background:white;border-radius:12px;padding:25px;box-shadow:0 2px 8px rgba(0,0,0,0.1);}.chart-title{font-size:1.2em;font-weight:600;color:#1565c0;margin-bottom:20px;text-align:center;}.history-item{display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-bottom:1px solid #eee;}.history-item:last-child{border-bottom:none;}.game-info{display:flex;align-items:center;gap:15px;}.game-result{padding:5px 12px;border-radius:20px;font-size:0.8em;font-weight:600;}.game-result.win{background:#e8f5e8;color:#2e7d32;}.game-result.lose{background:#ffebee;color:#c62828;}.insights-section{padding:30px;background:linear-gradient(135deg,#e3f2fd 0%,#bbdefb 100%);}.insight-card{background:white;border-radius:12px;padding:25px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);}.insight-title{font-size:1.1em;font-weight:600;color:#1565c0;margin-bottom:10px;}.insight-text{color:#666;line-height:1.6;}.controls{padding:30px;text-align:center;background:#f8f9fa;}button{background:linear-gradient(135deg,#1565c0 0%,#1976d2 100%);color:white;border:none;padding:12px 24px;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;margin:0 10px;transition:all 0.3s ease;}button:hover{background:linear-gradient(135deg,#1976d2 0%,#1565c0 100%);transform:translateY(-2px);}.back-btn{background:linear-gradient(135deg,#666 0%,#888 100%);}.back-btn:hover{background:linear-gradient(135deg,#888 0%,#666 100%);}.reset-btn{background:linear-gradient(135deg,#f44336 0%,#d32f2f 100%);}.reset-btn:hover{background:linear-gradient(135deg,#d32f2f 0%,#f44336 100%);}@media (max-width:700px){.stats-grid{grid-template-columns:1fr;}.recent-games,.insights-section{padding:15px;}}</style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>🔤 Word Quest Dashboard</h1>
+            <p>Track your word skills and vocabulary progress!</p>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalGames">0</div>
+                <div class="stat-label">Total Games</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="winRate">0%</div>
+                <div class="stat-label">Win Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgScore">0</div>
+                <div class="stat-label">Average Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="bestScore">0</div>
+                <div class="stat-label">Best Score</div>
+            </div>
+        </div>
+        <div class="recent-games">
+            <div class="game-history">
+                <div class="chart-title">Recent Games</div>
+                <div id="gameHistory"></div>
+            </div>
+        </div>
+        <div class="insights-section">
+            <div class="insight-card">
+                <div class="insight-title">🔤 Word Insights</div>
+                <div class="insight-text" id="performanceInsight">Start playing to see your word insights!</div>
+            </div>
+            <div class="insight-card">
+                <div class="insight-title">💡 Improvement Tips</div>
+                <div class="insight-text">• Practice new words daily<br>• Try harder word challenges<br>• Review your mistakes to improve<br>• Play regularly to build vocabulary</div>
+            </div>
+        </div>
+        <div class="controls">
+            <button onclick="window.location.href='word-quest.html'">🔤 Play Word Quest</button>
+            <button onclick="window.location.href='dashboard.html'">← Back to Games Dashboard</button>
+            <button class="reset-btn" onclick="resetStats()">🗑️ Reset Stats</button>
+        </div>
+    </div>
+    <script>
+    let gameStats = JSON.parse(localStorage.getItem('wordquestStats')) || { totalGames: 0, totalWins: 0, totalScore: 0, bestScore: 0, bestScoreDate: null, games: [] };
+    function initDashboard() { updateStats(); updateGameHistory(); updateInsights(); }
+    function updateStats() { const winRate = gameStats.totalGames > 0 ? Math.round((gameStats.totalWins / gameStats.totalGames) * 100) : 0; const avgScore = gameStats.totalGames > 0 ? Math.round(gameStats.totalScore / gameStats.totalGames) : 0; document.getElementById('totalGames').textContent = gameStats.totalGames; document.getElementById('winRate').textContent = winRate + '%'; document.getElementById('avgScore').textContent = avgScore; document.getElementById('bestScore').textContent = gameStats.bestScore; }
+    function updateGameHistory() { const historyContainer = document.getElementById('gameHistory'); const recentGames = gameStats.games.slice(-10).reverse(); if (recentGames.length === 0) { historyContainer.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">No games played yet. Start playing to see your history!</div>'; return; } historyContainer.innerHTML = recentGames.map(game => `<div class="history-item"><div class="game-info"><span class="game-result ${game.won ? 'win' : 'lose'}">${game.won ? 'WIN' : 'LOSE'}</span><span><strong>${game.word || 'Word Quest'}</strong></span></div><div><span>Score: ${game.score}</span><span style="margin-left: 15px; color: #666;">${new Date(game.date).toLocaleDateString()}</span></div></div>`).join(''); }
+    function updateInsights() { const insightElement = document.getElementById('performanceInsight'); if (gameStats.totalGames === 0) { insightElement.innerHTML = 'Start playing to see your word insights!'; return; } const winRate = Math.round((gameStats.totalWins / gameStats.totalGames) * 100); const avgScore = Math.round(gameStats.totalScore / gameStats.totalGames); let insight = ''; if (winRate >= 80) { insight = `Amazing! You're winning ${winRate}% of your games with an average score of ${avgScore}. Great vocabulary! 🏆`; } else if (winRate >= 60) { insight = `Great job! You're winning ${winRate}% of your games with an average score of ${avgScore}.`; } else if (winRate >= 40) { insight = `Good effort! You're winning ${winRate}% of your games. Try to learn new words every day.`; } else { insight = `Keep practicing! Try to play more and build your vocabulary.`; } insightElement.innerHTML = insight; }
+    function resetStats() { if (confirm('Are you sure you want to reset all your Word Quest statistics? This cannot be undone.')) { gameStats = { totalGames: 0, totalWins: 0, totalScore: 0, bestScore: 0, bestScoreDate: null, games: [] }; localStorage.setItem('wordquestStats', JSON.stringify(gameStats)); initDashboard(); } }
+    // Function to record game result (call this from your word quest game):
+    // recordWordQuestGameResult(won, score, word)
+    function recordWordQuestGameResult(won, score, word) { const game = { word: word || 'Word Quest', won: won, score: score, date: new Date().toISOString() }; gameStats.games.push(game); gameStats.totalGames++; gameStats.totalScore += score; if (won) gameStats.totalWins++; if (score > gameStats.bestScore) { gameStats.bestScore = score; gameStats.bestScoreDate = game.date; } localStorage.setItem('wordquestStats', JSON.stringify(gameStats)); }
+    initDashboard();
+    </script>
+</body>
+</html> 

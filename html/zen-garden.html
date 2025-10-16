@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zen Garden - Revive Peace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f3e5f5 0%, #e8f5e8 50%, #e3f2fd 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game-container {
+            background: transparent;
+            border-radius: 0;
+            padding: 20px;
+            box-shadow: none;
+            text-align: center;
+            max-width: 100%;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            color: #1565c0;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tool-btn {
+            background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tool-btn:hover {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            transform: translateY(-2px);
+        }
+
+        .tool-btn.active {
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+        }
+
+        .zen-garden {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #f5f5dc 0%, #deb887 100%);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+            border: 3px solid #8b4513;
+        }
+
+        .sand-line {
+            position: absolute;
+            background: #8b4513;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .decoration {
+            position: absolute;
+            font-size: 24px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.3s ease;
+        }
+
+        .decoration:hover {
+            transform: scale(1.2);
+        }
+
+        .clear-btn {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            margin-top: 20px;
+        }
+
+        .clear-btn:hover {
+            background: linear-gradient(135deg, #d32f2f 0%, #f44336 100%);
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #666 0%, #888 100%);
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #888 0%, #666 100%);
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #1565c0;
+        }
+
+        @media (max-width: 600px) {
+            .game-container {
+                padding: 10px;
+            }
+            
+            .zen-garden {
+                height: 300px;
+            }
+            
+            .controls {
+                gap: 10px;
+            }
+            
+            .tool-btn {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🌿 Zen Garden</h1>
+        
+        <div class="instructions">
+            Draw patterns in the sand by clicking and dragging. Add decorations to create your peaceful garden.
+        </div>
+
+        <div class="controls">
+            <button class="tool-btn active" onclick="setTool('sand')">🏖️ Sand Drawing</button>
+            <button class="tool-btn" onclick="setTool('rock')">🪨 Rock</button>
+            <button class="tool-btn" onclick="setTool('tree')">🌳 Tree</button>
+            <button class="tool-btn" onclick="setTool('flower')">🌸 Flower</button>
+            <button class="tool-btn" onclick="setTool('lantern')">🏮 Lantern</button>
+            <button class="tool-btn" onclick="setTool('bridge')">🌉 Bridge</button>
+        </div>
+
+        <div class="zen-garden" id="zenGarden"></div>
+
+        <button class="clear-btn tool-btn" onclick="clearGarden()">🗑️ Clear Garden</button>
+        <button class="back-btn tool-btn" onclick="window.location.href='games.html'">← Back to Games</button>
+    </div>
+
+    <script>
+        let currentTool = 'sand';
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let decorationId = 0;
+
+        // --- Zen Garden Stats Tracking ---
+        // Load or initialize stats from localStorage
+        let zenStats = JSON.parse(localStorage.getItem('zenStats')) || {
+            totalGames: 0,
+            mostDecorations: 0
+        };
+        // Increment sessions played on each load
+        zenStats.totalGames += 1;
+        localStorage.setItem('zenStats', JSON.stringify(zenStats));
+
+        // Helper to count current decorations
+        function countDecorations() {
+            return document.querySelectorAll('.decoration').length;
+        }
+
+        // Save most decorations if a new record is set
+        function updateMostDecorations() {
+            const count = countDecorations();
+            if (count > zenStats.mostDecorations) {
+                zenStats.mostDecorations = count;
+                localStorage.setItem('zenStats', JSON.stringify(zenStats));
+            }
+        }
+
+        const decorations = {
+            rock: '🪨',
+            tree: '🌳',
+            flower: '🌸',
+            lantern: '🏮',
+            bridge: '🌉'
+        };
+
+        // Set current tool
+        function setTool(tool) {
+            currentTool = tool;
+            
+            // Update active button
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Get garden element
+        const garden = document.getElementById('zenGarden');
+
+        // Mouse event handlers
+        garden.addEventListener('mousedown', startDrawing);
+        garden.addEventListener('mousemove', draw);
+        garden.addEventListener('mouseup', stopDrawing);
+        garden.addEventListener('mouseleave', stopDrawing);
+
+        // Touch event handlers for mobile
+        garden.addEventListener('touchstart', handleTouch);
+        garden.addEventListener('touchmove', handleTouch);
+        garden.addEventListener('touchend', stopDrawing);
+
+        function handleTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = garden.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            
+            if (e.type === 'touchstart') {
+                startDrawing({ clientX: touch.clientX, clientY: touch.clientY });
+            } else if (e.type === 'touchmove') {
+                draw({ clientX: touch.clientX, clientY: touch.clientY });
+            }
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = garden.getBoundingClientRect();
+            lastX = e.clientX - rect.left;
+            lastY = e.clientY - rect.top;
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+
+            const rect = garden.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            if (currentTool === 'sand') {
+                drawSandLine(lastX, lastY, x, y);
+            } else {
+                addDecoration(x, y);
+                isDrawing = false;
+            }
+
+            lastX = x;
+            lastY = y;
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function drawSandLine(x1, y1, x2, y2) {
+            const line = document.createElement('div');
+            line.className = 'sand-line';
+            
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+            
+            line.style.width = length + 'px';
+            line.style.height = '3px';
+            line.style.left = x1 + 'px';
+            line.style.top = y1 + 'px';
+            line.style.transform = `rotate(${angle}deg)`;
+            line.style.transformOrigin = '0 50%';
+            
+            garden.appendChild(line);
+        }
+
+        function addDecoration(x, y) {
+            const decoration = document.createElement('div');
+            decoration.className = 'decoration';
+            decoration.textContent = decorations[currentTool];
+            decoration.style.left = (x - 12) + 'px';
+            decoration.style.top = (y - 12) + 'px';
+            decoration.id = 'decoration-' + decorationId++;
+            
+            // Allow dragging decorations
+            decoration.addEventListener('mousedown', startDragging);
+            decoration.addEventListener('touchstart', startDragging);
+            
+            garden.appendChild(decoration);
+            // Optionally update most decorations live
+            updateMostDecorations();
+        }
+
+        function startDragging(e) {
+            e.preventDefault();
+            const decoration = e.target;
+            const rect = garden.getBoundingClientRect();
+            
+            function drag(e) {
+                const clientX = e.clientX || e.touches[0].clientX;
+                const clientY = e.clientY || e.touches[0].clientY;
+                const x = clientX - rect.left - 12;
+                const y = clientY - rect.top - 12;
+                
+                decoration.style.left = Math.max(0, Math.min(x, garden.offsetWidth - 24)) + 'px';
+                decoration.style.top = Math.max(0, Math.min(y, garden.offsetHeight - 24)) + 'px';
+            }
+            
+            function stopDragging() {
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('mouseup', stopDragging);
+                document.removeEventListener('touchmove', drag);
+                document.removeEventListener('touchend', stopDragging);
+            }
+            
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDragging);
+            document.addEventListener('touchmove', drag);
+            document.addEventListener('touchend', stopDragging);
+        }
+
+        function clearGarden() {
+            updateMostDecorations(); // Save record before clearing
+            garden.innerHTML = '';
+            decorationId = 0;
+        }
+
+        // Add some initial decorations for inspiration
+        setTimeout(() => {
+            addDecoration(100, 100);
+            addDecoration(300, 150);
+            addDecoration(200, 250);
+        }, 1000);
+    </script>
+</body>
+</html> 
+ 

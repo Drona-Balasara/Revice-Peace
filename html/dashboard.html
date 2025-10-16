@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+	<meta name="robots" content="" />
+	<meta name="description" content="Revive Peace - Games Dashboard" />
+	<meta property="og:title" content="Revive Peace - Games Dashboard" />
+	<meta property="og:description" content="Revive Peace - Games Dashboard" />
+	<meta property="og:image" content="Revive Peace - Games Dashboard" />
+	<meta name="format-detection" content="telephone=no">
+	<!-- FAVICONS ICON -->
+	<link rel="icon" href="../images/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" type="image/x-icon" href="../images/favicon.png" />
+	<!-- PAGE TITLE HERE -->
+	<title>Revive Peace - Games Dashboard</title>
+	<!-- MOBILE SPECIFIC -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- STYLESHEETS -->
+	<link rel="stylesheet" type="text/css" href="../css/plugins.css">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<link rel="stylesheet" type="text/css" href="../css/templete.css">
+	<link rel="stylesheet" type="text/css" href="../css/dashboard.css">
+	<link class="skin" rel="stylesheet" type="text/css" href="../css/skin/skin-1.css">
+</head>
+<body id="bg">
+<div id="loading-area"></div>
+<div class="page-wraper">
+    <!-- header -->
+	<header class="site-header header-style-5 mo-left light">
+		<div class="sticky-header main-bar-wraper navbar-expand-lg">
+			<div class="main-bar clearfix ">
+				<div class="container clearfix">
+					<div class="row align-items-center">
+						<!-- Logo on the left -->
+						<div class="col-lg-4 col-md-4 col-sm-12">
+							<div class="logo-header">
+								<a href="main.html"><img src="../images/logo.png" width="193" height="89" alt=""></a>
+							</div>
+						</div>
+						<!-- Navigation Menu on the right -->
+						<div class="col-lg-8 col-md-8 col-sm-12 text-right">
+							<nav class="navbar navbar-expand-lg justify-content-end">
+								<ul class="navbar-nav">
+									<li class="nav-item">
+										<a class="nav-link" href="main.html">Home</a>
+									</li>
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+											Features
+										</a>
+										<div class="dropdown-menu dropdown-menu-right">
+											<a class="dropdown-item" href="https://notknown.app.n8n.cloud/webhook/6d3062ae-c732-4b6a-a8c4-a8a4e1bc2872/chat">
+												<i class="fa fa-comments"></i> AI Chat Bot
+											</a>
+											<a class="dropdown-item" href="journaling.html">
+												<i class="fa fa-book"></i> Journaling
+											</a>
+											<a class="dropdown-item" href="binaural.html">
+												<i class="fa fa-headphones"></i> Binaural Beats
+											</a>
+											<a class="dropdown-item" href="therapy.html">
+												<i class="fa fa-heart"></i> Therapy
+											</a>
+											<a class="dropdown-item" href="games.html">
+												<i class="fa fa-gamepad"></i> Games
+											</a>
+											<a class="dropdown-item" href="dashboard.html">
+												<i class="fa fa-tachometer"></i> Dashboard
+											</a>
+										</div>
+									</li>
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+											Games
+										</a>
+										<div class="dropdown-menu dropdown-menu-right">
+											<a class="dropdown-item" href="games.html">
+												<i class="fa fa-gamepad"></i> All Games
+											</a>
+											<a class="dropdown-item" href="word-quest.html">
+												<i class="fa fa-puzzle-piece"></i> Word Quest
+											</a>
+											<a class="dropdown-item" href="hangman.html">
+												<i class="fa fa-user-secret"></i> Hangman
+											</a>
+											<a class="dropdown-item" href="simon-says.html">
+												<i class="fa fa-circle"></i> Simon Says
+											</a>
+											<a class="dropdown-item" href="maze-navigation.html">
+												<i class="fa fa-sitemap"></i> Maze Navigation
+											</a>
+											<a class="dropdown-item" href="puzzle-challenge.html">
+												<i class="fa fa-th"></i> Puzzle Challenge
+											</a>
+											<a class="dropdown-item" href="reflex-click.html">
+												<i class="fa fa-mouse-pointer"></i> Reflex Click
+											</a>
+											<a class="dropdown-item" href="zen-garden.html">
+												<i class="fa fa-tree"></i> Zen Garden
+											</a>
+										</div>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="help.html">Help</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="Login.html">Login</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="Signup.html">Sign Up</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- header END -->
+    <!-- Content -->
+    <div class="page-content">
+		<!-- Dashboard Section -->
+        <div class="section-full bg-white content-inner-2">
+            <div class="container">
+                <div class="section-content">
+                    <div class="row">
+                        <div class="col-lg-12 text-center section-head">
+                            <h3 class="h3"><span class="text-primary">📊 Games Dashboard</span></h3>
+							<div class="rdx-separator-outer "><div class="rdx-separator bg-primary style-liner"></div></div>
+                            <div class="clear"></div>
+                            <p>See your progress and stats for all games in one place!</p>
+                        </div>
+                    </div>
+					<div class="row m-b30" id="summaryStats">
+						<div class="col-lg-3 col-md-6 col-sm-6 m-b20">
+							<div class="stat-card text-center">
+								<div class="stat-icon">🎮</div>
+								<div class="stat-number" id="totalGames">0</div>
+								<div class="stat-label">Total Games</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-6 col-sm-6 m-b20">
+							<div class="stat-card text-center">
+								<div class="stat-icon">🏆</div>
+								<div class="stat-number" id="totalWins">0</div>
+								<div class="stat-label">Total Wins</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-6 col-sm-6 m-b20">
+							<div class="stat-card text-center">
+								<div class="stat-icon">📈</div>
+								<div class="stat-number" id="overallWinRate">0%</div>
+								<div class="stat-label">Win Rate</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-6 col-sm-6 m-b20">
+							<div class="stat-card text-center">
+								<div class="stat-icon">⭐</div>
+								<div class="stat-number" id="totalScore">0</div>
+								<div class="stat-label">Total Score</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" id="gamesGrid" style="margin-bottom: 40px;">
+						<!-- Game cards will be inserted here by JavaScript -->
+					</div>
+					<div class="row">
+						<div class="col-lg-12 text-center">
+							<a href="main.html" class="btn btn-primary m-t20">← Back to Home</a>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Content END-->
+    <button class="scroltop fa fa-caret-up" ></button>
+</div>
+<script src="../js/jquery.min.js"></script>
+<script src="../plugins/bootstrap/js/popper.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="../plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+<script src="../plugins/magnific-popup/magnific-popup.js"></script>
+<script src="../plugins/counter/waypoints-min.js"></script>
+<script src="../plugins/counter/counterup.min.js"></script>
+<script src="../plugins/imagesloaded/imagesloaded.js"></script>
+<script src="../plugins/masonry/masonry-3.1.4.js"></script>
+<script src="../plugins/masonry/masonry.filter.js"></script>
+<script src="../plugins/owl-carousel/owl.carousel.js"></script>
+<script src="../js/custom.js"></script>
+<script src="../js/dz.carousel.js"></script>
+<script src="../js/dz.ajax.js"></script>
+<script>
+	// Header scroll effect
+	window.addEventListener('scroll', function() {
+		const header = document.querySelector('.site-header');
+		if (window.scrollY > 50) {
+			header.classList.add('scrolled');
+		} else {
+			header.classList.remove('scrolled');
+		}
+	});
+	
+	// Enhanced games configuration with better stats handling
+    // Enhanced games configuration with better stats handling
+    const games = [
+        {
+            key: 'hangman',
+            name: 'Hangman',
+            icon: '🎯',
+            playUrl: 'hangman.html',
+            dashboardUrl: 'hangman-dashboard.html',
+            statsKey: 'hangmanStats',
+            stats: { totalGames: 0, totalWins: 0, totalScore: 0, bestScore: 0, winRate: 0 }
+        },
+        {
+            key: 'puzzle',
+            name: 'Puzzle Challenge',
+            icon: '🧩',
+            playUrl: 'puzzle-challenge.html',
+            dashboardUrl: 'puzzle-dashboard.html',
+            statsKey: 'puzzleStats',
+            stats: { totalGames: 0, totalWins: 0, totalScore: 0, bestScore: 0, winRate: 0 }
+        },
+        {
+            key: 'maze',
+            name: 'Maze Navigation',
+            icon: '🗺️',
+            playUrl: 'maze-navigation.html',
+            dashboardUrl: 'maze-dashboard.html',
+            statsKey: 'mazeStats',
+            stats: { totalGames: 0, totalWins: 0, totalScore: 0, bestScore: 0, winRate: 0 }
+        },
+        {
+            key: 'zen',
+            name: 'Zen Garden',
+            icon: '🌸',
+            playUrl: 'zen-garden.html',
+            dashboardUrl: 'zen-dashboard.html',
+            statsKey: 'zenStats',
+            stats: { totalGames: 0, totalWins: 0, totalScore: 0, bestScore: 0, winRate: 0 }
+        },
+        {
+            key: 'simon',
+            name: 'Simon Says',
+            icon: '🟢',
+            playUrl: 'simon-says.html',
+            dashboardUrl: 'simon-dashboard.html',
+            statsKey: 'simonStats',
+            stats: { totalGames: 0, totalWins: 0, totalScore: 0, bestScore: 0, winRate: 0 }
+        },
+        {
+            key: 'reflex',
+            name: 'Reflex Click',
+            icon: '⚡',
+            playUrl: 'reflex-click.html',
+            dashboardUrl: 'reflex-dashboard.html',
+            statsKey: 'reflexStats',
+            stats: { totalGames: 0, totalWins: 0, totalScore: 0, bestScore: 0, winRate: 0, bestTime: Infinity }
+        },
+        {
+            key: 'wordquest',
+            name: 'Word Quest',
+            icon: '🔤',
+            playUrl: 'word-quest.html',
+            dashboardUrl: 'wordquest-dashboard.html',
+            statsKey: 'wordquestStats',
+            stats: { totalGames: 0, totalWins: 0, totalScore: 0, bestScore: 0, winRate: 0 }
+        }
+    ];
+
+    // Enhanced function to load and process stats for each game
+    function loadGameStats() {
+        games.forEach(game => {
+            const stored = localStorage.getItem(game.statsKey);
+            if (stored) {
+                try {
+                    const parsed = JSON.parse(stored);
+                    
+                    // Handle different stats structures from different games
+                    if (game.key === 'reflex') {
+                        // Reflex Click has different stats structure
+                        game.stats = {
+                            totalGames: parsed.attempts || parsed.totalGames || 0,
+                            totalWins: parsed.totalWins || 0,
+                            totalScore: parsed.totalScore || 0,
+                            bestScore: parsed.bestScore || 0,
+                            bestTime: parsed.bestTime || Infinity,
+                            winRate: 0
+                        };
+                        
+                        // Calculate win rate for reflex (based on attempts vs successful clicks)
+                        if (game.stats.totalGames > 0) {
+                            game.stats.winRate = Math.round((game.stats.totalWins / game.stats.totalGames) * 100);
+                        }
+                        
+                        // Format best time for display
+                        if (game.stats.bestTime !== Infinity) {
+                            game.stats.bestScore = game.stats.bestTime + 'ms';
+                        }
+                    } else {
+                        // Standard stats structure for other games
+                        game.stats = {
+                            totalGames: parsed.totalGames || 0,
+                            totalWins: parsed.totalWins || 0,
+                            totalScore: parsed.totalScore || 0,
+                            bestScore: parsed.bestScore || 0,
+                            winRate: 0
+                        };
+                        
+                        // Calculate win rate
+                        if (game.stats.totalGames > 0) {
+                            game.stats.winRate = Math.round((game.stats.totalWins / game.stats.totalGames) * 100);
+                        }
+                    }
+                } catch (error) {
+                    console.error(`Error loading stats for ${game.name}:`, error);
+                }
+            }
+        });
+    }
+
+    // Enhanced function to render game cards with better stats display
+    function renderGameCards() {
+        const grid = document.getElementById('gamesGrid');
+        
+        if (grid) {
+            grid.innerHTML = games.map(game => {
+                let statsDisplay = '';
+                
+                if (game.key === 'reflex') {
+                    // Special display for reflex click
+                    const bestTime = game.stats.bestTime !== Infinity ? game.stats.bestTime + 'ms' : '--';
+                    statsDisplay = `
+                        <div>Attempts: <strong>${game.stats.totalGames}</strong></div>
+                        <div>Best Time: <strong>${bestTime}</strong></div>
+                        <div>Win Rate: <strong>${game.stats.winRate}%</strong></div>
+                    `;
+                } else {
+                    // Standard display for other games
+                    statsDisplay = `
+                        <div>Total Games: <strong>${game.stats.totalGames}</strong></div>
+                        <div>Wins: <strong>${game.stats.totalWins}</strong></div>
+                        <div>Win Rate: <strong>${game.stats.winRate}%</strong></div>
+                        <div>Best Score: <strong>${game.stats.bestScore}</strong></div>
+                    `;
+                }
+                
+                return `
+                    <div class="col-lg-4 col-md-6 col-sm-6 m-b30">
+                        <div class="game-card">
+                            <div class="game-icon">${game.icon}</div>
+                            <div class="game-title">${game.name}</div>
+                            <div class="game-stats">
+                                ${statsDisplay}
+                            </div>
+                            <div class="game-actions">
+                                <a class="game-link" href="${game.playUrl}">Play</a>
+                                ${game.dashboardUrl ? `<a class="game-link" href="${game.dashboardUrl}">Details</a>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Update summary statistics
+        updateSummaryStats();
+    }
+    
+    // Function to update summary statistics
+    function updateSummaryStats() {
+        let totalGames = 0;
+        let totalWins = 0;
+        let totalScore = 0;
+        
+        games.forEach(game => {
+            totalGames += game.stats.totalGames || 0;
+            totalWins += game.stats.totalWins || 0;
+            totalScore += game.stats.totalScore || 0;
+        });
+        
+        const overallWinRate = totalGames > 0 ? Math.round((totalWins / totalGames) * 100) : 0;
+        
+        // Update summary display
+        document.getElementById('totalGames').textContent = totalGames;
+        document.getElementById('totalWins').textContent = totalWins;
+        document.getElementById('overallWinRate').textContent = overallWinRate + '%';
+        document.getElementById('totalScore').textContent = totalScore;
+    }
+
+    // Function to refresh stats (useful for real-time updates)
+    function refreshStats() {
+        const grid = document.getElementById('gamesGrid');
+        if (grid) {
+            grid.classList.add('refreshing');
+        }
+        
+        setTimeout(() => {
+            loadGameStats();
+            renderGameCards();
+            
+            if (grid) {
+                grid.classList.remove('refreshing');
+            }
+        }, 500);
+    }
+
+    // Initialize dashboard
+    loadGameStats();
+    renderGameCards();
+
+    // Auto-refresh stats every 30 seconds
+    setInterval(refreshStats, 30000);
+
+    // Add refresh button functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add refresh button if needed
+        const refreshBtn = document.createElement('button');
+        refreshBtn.className = 'btn btn-outline-primary m-t20';
+        refreshBtn.innerHTML = '🔄 Refresh Stats';
+        refreshBtn.onclick = refreshStats;
+        
+        const backBtn = document.querySelector('a[href="main.html"]');
+        if (backBtn && backBtn.parentElement) {
+            backBtn.parentElement.appendChild(refreshBtn);
+        }
+    });
+</script>
+</body>
+</html> 

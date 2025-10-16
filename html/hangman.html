@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game - Revive Peace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../css/hangman.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>🎯 Hangman Game</h1>
+        
+        <div class="instructions">
+            Guess the word by selecting letters. You have 6 attempts to save the hangman! Choose your difficulty level and start playing.
+        </div>
+
+        <div class="stats">
+            <div>Wins: <span id="wins">0</span></div>
+            <div>Lives: <span id="lives">6</span></div>
+            <div>Score: <span id="score">0</span></div>
+        </div>
+
+        <div class="difficulty-selector">
+            <label>Choose Difficulty:</label>
+            <div class="difficulty-buttons">
+                <button class="difficulty-btn active" onclick="selectDifficulty('easy')">Easy</button>
+                <button class="difficulty-btn" onclick="selectDifficulty('medium')">Medium</button>
+                <button class="difficulty-btn" onclick="selectDifficulty('hard')">Hard</button>
+            </div>
+        </div>
+
+        <div class="hangman-drawing">
+            <svg class="hangman-svg" id="hangmanSvg" viewBox="0 0 200 200">
+                <!-- Base -->
+                <line x1="20" y1="180" x2="180" y2="180" stroke="#333" stroke-width="3"/>
+                <!-- Vertical pole -->
+                <line x1="40" y1="180" x2="40" y2="20" stroke="#333" stroke-width="3"/>
+                <!-- Top horizontal -->
+                <line x1="40" y1="20" x2="140" y2="20" stroke="#333" stroke-width="3"/>
+                <!-- Rope -->
+                <line x1="140" y1="20" x2="140" y2="40" stroke="#333" stroke-width="2"/>
+            </svg>
+        </div>
+
+        <div class="word-display" id="wordDisplay"></div>
+
+        <div class="hint" id="hint"></div>
+
+        <div class="message" id="message" style="display: none;"></div>
+
+        <div class="keyboard" id="keyboard"></div>
+
+        <div class="controls">
+            <button class="new-game-btn" onclick="newGame()">🔄 New Game</button>
+            <button onclick="showHint()">💡 Extra Hint</button>
+            <button onclick="window.location.href='hangman-dashboard.html'" style="background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);">📊 View Dashboard</button>
+        </div>
+
+        <button class="back-btn" onclick="window.location.href='games.html'">← Back to Games</button>
+    </div>
+
+    <script>
+        let currentWord = '';
+        let guessedLetters = new Set();
+        let lives = 6;
+        let wins = 0;
+        let score = 0;
+        let gameActive = true;
+        let currentDifficulty = 'easy';
+
+        // Word categories for different difficulty levels
+        const wordCategories = {
+            easy: [
+                'CAT', 'DOG', 'SUN', 'MOON', 'STAR', 'TREE', 'BOOK', 'BALL', 'CAKE', 'MILK',
+                'BIRD', 'FISH', 'CAR', 'BUS', 'HAT', 'BAG', 'PEN', 'MAP', 'KEY', 'DOOR'
+            ],
+            medium: [
+                'APPLE', 'HOUSE', 'SCHOOL', 'FRIEND', 'FAMILY', 'MOTHER', 'FATHER', 'SISTER', 'BROTHER',
+                'TEACHER', 'STUDENT', 'DOCTOR', 'NURSE', 'POLICE', 'FARMER', 'COOK', 'DRIVER', 'WORKER',
+                'PLAYER', 'SINGER', 'DANCER', 'PAINTER', 'WRITER', 'READER', 'RUNNER', 'SWIMMER'
+            ],
+            hard: [
+                'ELEPHANT', 'BUTTERFLY', 'RAINBOW', 'MOUNTAIN', 'OCEAN', 'FOREST', 'GARDEN', 'KITCHEN',
+                'BEDROOM', 'BATHROOM', 'LIVING', 'DINING', 'WINDOW', 'PICTURE', 'COMPUTER', 'TELEPHONE',
+                'TELEVISION', 'RADIO', 'NEWSPAPER', 'MAGAZINE', 'LIBRARY', 'HOSPITAL', 'RESTAURANT',
+                'SUPERMARKET', 'PLAYGROUND', 'SWIMMING', 'BASKETBALL', 'FOOTBALL', 'BASEBALL', 'TENNIS'
+            ]
+        };
+
+        const hints = {
+            // Easy words (3 letters)
+            'CAT': 'It is a pet animal that says meow',
+            'DOG': 'It is a pet animal that says woof',
+            'SUN': 'It is bright and gives us light',
+            'MOON': 'It is round and shines at night',
+            'STAR': 'It is small and twinkles in the sky',
+            'TREE': 'It is tall and has leaves',
+            'BOOK': 'It is something we read',
+            'BALL': 'It is round and we play with it',
+            'CAKE': 'It is sweet and we eat it on birthdays',
+            'MILK': 'It is white and we drink it',
+            'BIRD': 'It is an animal that can fly',
+            'FISH': 'It is an animal that swims in water',
+            'CAR': 'It is something we drive',
+            'BUS': 'It is big and carries many people',
+            'HAT': 'It is something we wear on our head',
+            'BAG': 'It is something we carry things in',
+            'PEN': 'It is something we write with',
+            'MAP': 'It shows us where to go',
+            'KEY': 'It opens doors',
+            'DOOR': 'It is something we open to go inside',
+            
+            // Medium words (4-6 letters)
+            'APPLE': 'It is a red fruit that grows on trees',
+            'HOUSE': 'It is where we live',
+            'SCHOOL': 'It is where we learn',
+            'FRIEND': 'It is someone we like to play with',
+            'FAMILY': 'It is our mom, dad, and brothers and sisters',
+            'MOTHER': 'It is our mom',
+            'FATHER': 'It is our dad',
+            'SISTER': 'It is our girl sibling',
+            'BROTHER': 'It is our boy sibling',
+            'TEACHER': 'It is someone who teaches us',
+            'STUDENT': 'It is someone who learns',
+            'DOCTOR': 'It is someone who helps sick people',
+            'NURSE': 'It is someone who helps the doctor',
+            'POLICE': 'It is someone who keeps us safe',
+            'FARMER': 'It is someone who grows food',
+            'COOK': 'It is someone who makes food',
+            'DRIVER': 'It is someone who drives cars',
+            'WORKER': 'It is someone who works',
+            'PLAYER': 'It is someone who plays games',
+            'SINGER': 'It is someone who sings',
+            'DANCER': 'It is someone who dances',
+            'PAINTER': 'It is someone who paints pictures',
+            'WRITER': 'It is someone who writes books',
+            'READER': 'It is someone who reads books',
+            'RUNNER': 'It is someone who runs fast',
+            'SWIMMER': 'It is someone who swims',
+            
+            // Hard words (7+ letters)
+            'ELEPHANT': 'It is a big gray animal with a long nose',
+            'BUTTERFLY': 'It is a colorful insect that flies',
+            'RAINBOW': 'It is colorful and appears after rain',
+            'MOUNTAIN': 'It is very tall and made of rock',
+            'OCEAN': 'It is very big and full of water',
+            'FOREST': 'It is a place with many trees',
+            'GARDEN': 'It is a place where we grow flowers',
+            'KITCHEN': 'It is a room where we cook food',
+            'BEDROOM': 'It is a room where we sleep',
+            'BATHROOM': 'It is a room where we wash',
+            'LIVING': 'It is a room where we sit and watch TV',
+            'DINING': 'It is a room where we eat',
+            'WINDOW': 'It is something we look through to see outside',
+            'PICTURE': 'It is something we hang on the wall',
+            'COMPUTER': 'It is a machine we use to play games',
+            'TELEPHONE': 'It is something we use to talk to people far away',
+            'TELEVISION': 'It is something we watch shows on',
+            'RADIO': 'It is something we listen to music on',
+            'NEWSPAPER': 'It is something we read to learn news',
+            'MAGAZINE': 'It is a book with pictures and stories',
+            'LIBRARY': 'It is a place with many books',
+            'HOSPITAL': 'It is a place where sick people go',
+            'RESTAURANT': 'It is a place where we eat food',
+            'SUPERMARKET': 'It is a big store where we buy food',
+            'PLAYGROUND': 'It is a place where children play',
+            'SWIMMING': 'It is a sport we do in water',
+            'BASKETBALL': 'It is a game where we throw a ball in a hoop',
+            'FOOTBALL': 'It is a game where we kick a ball',
+            'BASEBALL': 'It is a game where we hit a ball with a bat',
+            'TENNIS': 'It is a game where we hit a ball with a racket'
+        };
+
+        // Initialize the game
+        function initGame() {
+            createKeyboard();
+            newGame();
+        }
+
+        // Create keyboard
+        function createKeyboard() {
+            const keyboard = document.getElementById('keyboard');
+            keyboard.innerHTML = '';
+            
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            letters.split('').forEach(letter => {
+                const key = document.createElement('button');
+                key.className = 'key';
+                key.textContent = letter;
+                key.onclick = () => guessLetter(letter);
+                keyboard.appendChild(key);
+            });
+        }
+
+        // Select difficulty
+        function selectDifficulty(difficulty) {
+            currentDifficulty = difficulty;
+            
+            // Update button styles
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Start new game with selected difficulty
+            newGame();
+        }
+
+        // Start new game
+        function newGame() {
+            // Select random word from selected difficulty
+            const words = wordCategories[currentDifficulty];
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            
+            guessedLetters.clear();
+            lives = 6;
+            gameActive = true;
+            
+            updateDisplay();
+            updateHangman();
+            hideMessage();
+            resetKeyboard();
+            
+            // Show initial hint
+            showInitialHint();
+        }
+
+        // Guess a letter
+        function guessLetter(letter) {
+            if (!gameActive || guessedLetters.has(letter)) return;
+            
+            guessedLetters.add(letter);
+            const key = event.target;
+            
+            if (currentWord.includes(letter)) {
+                key.classList.add('correct');
+                score += 10;
+            } else {
+                key.classList.add('wrong');
+                lives--;
+                score = Math.max(0, score - 5);
+            }
+            
+            key.classList.add('used');
+            updateDisplay();
+            updateHangman();
+            
+            if (lives <= 0) {
+                endGame(false);
+            } else if (isWordGuessed()) {
+                endGame(true);
+            }
+        }
+
+        // Check if word is completely guessed
+        function isWordGuessed() {
+            return currentWord.split('').every(letter => guessedLetters.has(letter));
+        }
+
+        // Update display
+        function updateDisplay() {
+            document.getElementById('lives').textContent = lives;
+            document.getElementById('score').textContent = score;
+            document.getElementById('wins').textContent = wins;
+            
+            // Update word display
+            const wordDisplay = document.getElementById('wordDisplay');
+            wordDisplay.innerHTML = '';
+            
+            currentWord.split('').forEach(letter => {
+                const letterDiv = document.createElement('div');
+                letterDiv.className = 'letter';
+                letterDiv.textContent = guessedLetters.has(letter) ? letter : '';
+                wordDisplay.appendChild(letterDiv);
+            });
+        }
+
+        // Update hangman drawing
+        function updateHangman() {
+            const svg = document.getElementById('hangmanSvg');
+            const livesLeft = 6 - lives;
+            
+            // Clear previous hangman parts
+            const existingParts = svg.querySelectorAll('.hangman-part');
+            existingParts.forEach(part => part.remove());
+            
+            // Draw hangman parts based on lives lost
+            if (livesLeft >= 1) {
+                // Head
+                const head = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                head.setAttribute('cx', '140');
+                head.setAttribute('cy', '50');
+                head.setAttribute('r', '15');
+                head.setAttribute('stroke', '#333');
+                head.setAttribute('stroke-width', '2');
+                head.setAttribute('fill', 'none');
+                head.classList.add('hangman-part');
+                svg.appendChild(head);
+            }
+            
+            if (livesLeft >= 2) {
+                // Body
+                const body = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                body.setAttribute('x1', '140');
+                body.setAttribute('y1', '65');
+                body.setAttribute('x2', '140');
+                body.setAttribute('y2', '110');
+                body.setAttribute('stroke', '#333');
+                body.setAttribute('stroke-width', '2');
+                body.classList.add('hangman-part');
+                svg.appendChild(body);
+            }
+            
+            if (livesLeft >= 3) {
+                // Left arm
+                const leftArm = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                leftArm.setAttribute('x1', '140');
+                leftArm.setAttribute('y1', '75');
+                leftArm.setAttribute('x2', '120');
+                leftArm.setAttribute('y2', '95');
+                leftArm.setAttribute('stroke', '#333');
+                leftArm.setAttribute('stroke-width', '2');
+                leftArm.classList.add('hangman-part');
+                svg.appendChild(leftArm);
+            }
+            
+            if (livesLeft >= 4) {
+                // Right arm
+                const rightArm = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                rightArm.setAttribute('x1', '140');
+                rightArm.setAttribute('y1', '75');
+                rightArm.setAttribute('x2', '160');
+                rightArm.setAttribute('y2', '95');
+                rightArm.setAttribute('stroke', '#333');
+                rightArm.setAttribute('stroke-width', '2');
+                rightArm.classList.add('hangman-part');
+                svg.appendChild(rightArm);
+            }
+            
+            if (livesLeft >= 5) {
+                // Left leg
+                const leftLeg = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                leftLeg.setAttribute('x1', '140');
+                leftLeg.setAttribute('y1', '110');
+                leftLeg.setAttribute('x2', '120');
+                leftLeg.setAttribute('y2', '140');
+                leftLeg.setAttribute('stroke', '#333');
+                leftLeg.setAttribute('stroke-width', '2');
+                leftLeg.classList.add('hangman-part');
+                svg.appendChild(leftLeg);
+            }
+            
+            if (livesLeft >= 6) {
+                // Right leg
+                const rightLeg = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                rightLeg.setAttribute('x1', '140');
+                rightLeg.setAttribute('y1', '110');
+                rightLeg.setAttribute('x2', '160');
+                rightLeg.setAttribute('y2', '140');
+                rightLeg.setAttribute('stroke', '#333');
+                rightLeg.setAttribute('stroke-width', '2');
+                rightLeg.classList.add('hangman-part');
+                svg.appendChild(rightLeg);
+            }
+        }
+
+        // End game
+        function endGame(won) {
+            gameActive = false;
+            
+            if (won) {
+                wins++;
+                score += 50;
+                showMessage(`🎉 Congratulations! You saved the hangman! The word was: ${currentWord}`, 'win');
+            } else {
+                showMessage(`💀 Game Over! The word was: ${currentWord}`, 'lose');
+            }
+            
+            // Record game result for dashboard
+            recordGameResult(currentWord, currentDifficulty, won, score);
+            
+            updateDisplay();
+        }
+
+        // Record game result for dashboard
+        function recordGameResult(word, difficulty, won, score) {
+            // Store locally for dashboard
+            let gameStats = JSON.parse(localStorage.getItem('hangmanStats')) || {
+                totalGames: 0,
+                totalWins: 0,
+                totalScore: 0,
+                bestScore: 0,
+                bestScoreDate: null,
+                games: [],
+                difficultyStats: {
+                    easy: { games: 0, wins: 0, totalScore: 0 },
+                    medium: { games: 0, wins: 0, totalScore: 0 },
+                    hard: { games: 0, wins: 0, totalScore: 0 }
+                }
+            };
+
+            const game = {
+                word: word,
+                difficulty: difficulty,
+                won: won,
+                score: score,
+                date: new Date().toISOString()
+            };
+
+            gameStats.games.push(game);
+            gameStats.totalGames++;
+            gameStats.totalScore += score;
+
+            if (won) {
+                gameStats.totalWins++;
+                gameStats.difficultyStats[difficulty].wins++;
+            }
+
+            gameStats.difficultyStats[difficulty].games++;
+            gameStats.difficultyStats[difficulty].totalScore += score;
+
+            if (score > gameStats.bestScore) {
+                gameStats.bestScore = score;
+                gameStats.bestScoreDate = game.date;
+            }
+
+            localStorage.setItem('hangmanStats', JSON.stringify(gameStats));
+        }
+
+        // Show message
+        function showMessage(text, type) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.style.display = 'block';
+        }
+
+        // Hide message
+        function hideMessage() {
+            document.getElementById('message').style.display = 'none';
+        }
+
+        // Show initial hint
+        function showInitialHint() {
+            const hint = document.getElementById('hint');
+            if (hints[currentWord]) {
+                hint.textContent = `💡 Hint: ${hints[currentWord]}`;
+                hint.style.display = 'block';
+            }
+        }
+
+        // Show hint (additional hint during game)
+        function showHint() {
+            const hint = document.getElementById('hint');
+            if (hints[currentWord]) {
+                hint.textContent = `💡 Additional Hint: ${hints[currentWord]}`;
+                hint.style.display = 'block';
+                score = Math.max(0, score - 10); // Penalty for using hint
+                updateDisplay();
+            }
+        }
+
+        // Reset keyboard
+        function resetKeyboard() {
+            const keys = document.querySelectorAll('.key');
+            keys.forEach(key => {
+                key.classList.remove('used', 'correct', 'wrong');
+            });
+        }
+
+        // Initialize game
+        initGame();
+    </script>
+</body>
+</html> 

@@ -1,0 +1,32 @@
+/*===================== 
+	Premery bg color 
+=====================*/
+
+/*===================== 
+	Premery text color 
+=====================*/
+
+/*===================== 
+	Premery border color 
+=====================*/
+
+/*===================== 
+	Secondery bg color
+ =====================*/
+.bg-secondry {
+    background-color: #2d3239;
+}
+
+/*===================== 
+	Secondery text color
+ =====================*/
+.text-secondry {
+    color: #2d3239;
+}
+/*===================== 
+		Garllery 
+ =====================*/
+.our-gallery .rdx-info-has {
+    background-color: #ff91b8;
+    box-shadow: 0 0 0 15px #ff91b8 inset, 0 0 0 16px #ffffff inset;
+}

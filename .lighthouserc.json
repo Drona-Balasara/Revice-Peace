@@ -1,0 +1,26 @@
+{
+  "ci": {
+    "collect": {
+      "url": [
+        "http://localhost:8080/html/main.html",
+        "http://localhost:8080/html/games.html",
+        "http://localhost:8080/html/journaling.html",
+        "http://localhost:8080/html/therapy.html",
+        "http://localhost:8080/html/dashboard.html"
+      ],
+      "startServerCommand": "python -m http.server 8080",
+      "startServerReadyPattern": "Serving HTTP"
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["warn", {"minScore": 0.8}],
+        "categories:accessibility": ["error", {"minScore": 0.9}],
+        "categories:best-practices": ["warn", {"minScore": 0.8}],
+        "categories:seo": ["warn", {"minScore": 0.8}]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}

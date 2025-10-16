@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Navigation - Revive Peace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .game-container {
+            background: transparent;
+            border-radius: 0;
+            padding: 20px;
+            box-shadow: none;
+            text-align: center;
+            max-width: 100%;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            color: #2d3748;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .maze-container {
+            display: flex;
+            justify-content: center;
+            margin: 25px 0;
+        }
+
+        .maze {
+            border: 3px solid #4a5568;
+            border-radius: 10px;
+            background: #f7fafc;
+            display: grid;
+            gap: 1px;
+        }
+
+        .maze-cell {
+            width: 20px;
+            height: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .maze-cell.wall {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+        }
+
+        .maze-cell.path {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        }
+
+        .maze-cell.visited {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+        }
+
+        .maze-cell.start {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            border-radius: 50%;
+        }
+
+        .maze-cell.end {
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            border-radius: 50%;
+        }
+
+        .maze-cell.player {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .arrow-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .arrow-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .arrow-btn {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .arrow-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .arrow-btn:active {
+            transform: scale(0.95);
+        }
+
+        .arrow-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+            margin-top: 20px;
+        }
+
+        .win-message {
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+            color: #22543d;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: 500;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .maze-cell {
+                width: 15px;
+                height: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🌿 Maze Navigation</h1>
+        
+        <div class="instructions">
+            Navigate from the green start point to the orange end point using arrow keys.
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="moves">0</div>
+                <div class="stat-label">Moves</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="time">00:00</div>
+                <div class="stat-label">Time</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="level">1</div>
+                <div class="stat-label">Level</div>
+            </div>
+        </div>
+
+        <div class="maze-container">
+            <div class="maze" id="maze"></div>
+        </div>
+
+        <div class="win-message" id="winMessage">
+            🎉 Congratulations! You've completed the maze!
+        </div>
+
+        <div class="controls">
+            <button onclick="newMaze()">🔄 New Maze</button>
+            <button onclick="resetMaze()">🔄 Reset</button>
+        </div>
+
+        <div class="arrow-controls">
+            <div class="arrow-row">
+                <button class="arrow-btn" onclick="movePlayer(0, -1)" id="upBtn">⬆️</button>
+            </div>
+            <div class="arrow-row">
+                <button class="arrow-btn" onclick="movePlayer(-1, 0)" id="leftBtn">⬅️</button>
+                <button class="arrow-btn" onclick="movePlayer(1, 0)" id="rightBtn">➡️</button>
+            </div>
+            <div class="arrow-row">
+                <button class="arrow-btn" onclick="movePlayer(0, 1)" id="downBtn">⬇️</button>
+            </div>
+        </div>
+
+        <button class="back-btn" onclick="window.location.href='games.html'">← Back to Games</button>
+    </div>
+
+    <script>
+        let maze = [];
+        let playerPos = { x: 1, y: 1 };
+        let endPos = { x: 8, y: 8 };
+        let moves = 0;
+        let startTime = Date.now();
+        let timerInterval;
+        let gameWon = false;
+        let currentLevel = 1;
+        let mazeSize = 10;
+
+        function initGame() {
+            generateMaze();
+            startTimer();
+        }
+
+        function generateMaze() {
+            maze = [];
+            for (let y = 0; y < mazeSize; y++) {
+                maze[y] = [];
+                for (let x = 0; x < mazeSize; x++) {
+                    maze[y][x] = Math.random() > 0.3 ? 0 : 1;
+                }
+            }
+            
+            // Ensure start and end are clear
+            maze[1][1] = 0;
+            maze[mazeSize-2][mazeSize-2] = 0;
+            
+            playerPos = { x: 1, y: 1 };
+            endPos = { x: mazeSize-2, y: mazeSize-2 };
+            
+            renderMaze();
+        }
+
+        function renderMaze() {
+            const mazeElement = document.getElementById('maze');
+            mazeElement.innerHTML = '';
+            mazeElement.style.gridTemplateColumns = `repeat(${mazeSize}, 20px)`;
+
+            for (let y = 0; y < mazeSize; y++) {
+                for (let x = 0; x < mazeSize; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'maze-cell';
+                    
+                    if (maze[y][x] === 1) {
+                        cell.classList.add('wall');
+                    } else {
+                        cell.classList.add('path');
+                        
+                        if (x === 1 && y === 1) {
+                            cell.classList.add('start');
+                        } else if (x === endPos.x && y === endPos.y) {
+                            cell.classList.add('end');
+                        } else if (x === playerPos.x && y === playerPos.y) {
+                            cell.classList.add('player');
+                        }
+                    }
+                    
+                    mazeElement.appendChild(cell);
+                }
+            }
+        }
+
+        function movePlayer(dx, dy) {
+            if (gameWon) return;
+
+            const newX = playerPos.x + dx;
+            const newY = playerPos.y + dy;
+
+            if (newX >= 0 && newX < mazeSize && newY >= 0 && newY < mazeSize && maze[newY][newX] === 0) {
+                playerPos.x = newX;
+                playerPos.y = newY;
+                moves++;
+                
+                updateDisplay();
+                renderMaze();
+                updateArrowButtons();
+
+                if (playerPos.x === endPos.x && playerPos.y === endPos.y) {
+                    gameWon = true;
+                    document.getElementById('winMessage').style.display = 'block';
+                    stopTimer();
+                    disableArrowButtons();
+                    recordMazeGameResult(true, moves, 'Maze ' + currentLevel);
+                }
+            }
+        }
+
+        function updateArrowButtons() {
+            const upBtn = document.getElementById('upBtn');
+            const downBtn = document.getElementById('downBtn');
+            const leftBtn = document.getElementById('leftBtn');
+            const rightBtn = document.getElementById('rightBtn');
+
+            // Check if each direction is valid
+            const canMoveUp = playerPos.y > 0 && maze[playerPos.y - 1][playerPos.x] === 0;
+            const canMoveDown = playerPos.y < mazeSize - 1 && maze[playerPos.y + 1][playerPos.x] === 0;
+            const canMoveLeft = playerPos.x > 0 && maze[playerPos.y][playerPos.x - 1] === 0;
+            const canMoveRight = playerPos.x < mazeSize - 1 && maze[playerPos.y][playerPos.x + 1] === 0;
+
+            upBtn.disabled = !canMoveUp;
+            downBtn.disabled = !canMoveDown;
+            leftBtn.disabled = !canMoveLeft;
+            rightBtn.disabled = !canMoveRight;
+        }
+
+        function disableArrowButtons() {
+            document.querySelectorAll('.arrow-btn').forEach(btn => {
+                btn.disabled = true;
+            });
+        }
+
+        function enableArrowButtons() {
+            document.querySelectorAll('.arrow-btn').forEach(btn => {
+                btn.disabled = false;
+            });
+            updateArrowButtons();
+        }
+
+        function newMaze() {
+            currentLevel++;
+            moves = 0;
+            gameWon = false;
+            startTime = Date.now();
+            document.getElementById('winMessage').style.display = 'none';
+            generateMaze();
+            updateDisplay();
+            startTimer();
+        }
+
+        function resetMaze() {
+            moves = 0;
+            gameWon = false;
+            startTime = Date.now();
+            playerPos = { x: 1, y: 1 };
+            document.getElementById('winMessage').style.display = 'none';
+            renderMaze();
+            updateDisplay();
+            startTimer();
+        }
+
+        function updateDisplay() {
+            document.getElementById('moves').textContent = moves;
+            document.getElementById('level').textContent = currentLevel;
+        }
+
+        function startTimer() {
+            stopTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('time').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowUp': e.preventDefault(); movePlayer(0, -1); break;
+                case 'ArrowDown': e.preventDefault(); movePlayer(0, 1); break;
+                case 'ArrowLeft': e.preventDefault(); movePlayer(-1, 0); break;
+                case 'ArrowRight': e.preventDefault(); movePlayer(1, 0); break;
+            }
+        });
+
+        // Call this function when the maze game ends
+        function recordMazeGameResult(won, score, word) {
+            const gameStats = JSON.parse(localStorage.getItem('mazeStats')) || {
+                totalGames: 0, totalWins: 0, totalScore: 0, bestScore: 0, bestScoreDate: null, games: []
+            };
+            const game = {
+                word: word || 'Maze',
+                won: won,
+                score: score,
+                date: new Date().toISOString()
+            };
+            gameStats.games.push(game);
+            gameStats.totalGames++;
+            gameStats.totalScore += score;
+            if (won) gameStats.totalWins++;
+            if (score > gameStats.bestScore) {
+                gameStats.bestScore = score;
+                gameStats.bestScoreDate = game.date;
+            }
+            localStorage.setItem('mazeStats', JSON.stringify(gameStats));
+        }
+        // Example usage: recordMazeGameResult(true, 100, 'Maze 1');
+
+        initGame();
+    </script>
+</body>
+</html> 

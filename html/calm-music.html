@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+	<meta name="robots" content="" />
+	<meta name="description" content="Revive Peace - Calm Music" />
+	<meta property="og:title" content="Revive Peace - Calm Music" />
+	<meta property="og:description" content="Revive Peace - Calm Music" />
+	<meta property="og:image" content="Revive Peace - Calm Music" />
+	<meta name="format-detection" content="telephone=no">
+	<!-- FAVICONS ICON -->
+	<link rel="icon" href="../images/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" type="image/x-icon" href="../images/favicon.png" />
+	<!-- PAGE TITLE HERE -->
+	<title>Revive Peace - Calm Music</title>
+	<!-- MOBILE SPECIFIC -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- STYLESHEETS -->
+	<link rel="stylesheet" type="text/css" href="../css/plugins.css">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<link rel="stylesheet" type="text/css" href="../css/templete.css">
+	<link rel="stylesheet" type="text/css" href="../css/calm-music.css">
+	<link class="skin" rel="stylesheet" type="text/css" href="../css/skin/skin-1.css">
+</head>
+<body id="bg">
+<div id="loading-area"></div>
+<div class="page-wraper">
+    <!-- header -->
+	<header class="site-header header-style-5 mo-left light">
+		<div class="sticky-header main-bar-wraper navbar-expand-lg">
+			<div class="main-bar clearfix ">
+				<div class="container clearfix">
+					<div class="logo-header text-center" style="width: 100%;"><a href="main.html"><img src="../images/logo.png" width="193" height="89" alt=""></a></div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- header END -->
+    <!-- Content -->
+    <div class="page-content">
+		<!-- Calm Music Section -->
+        <div class="section-full bg-white content-inner-2">
+            <div class="container">
+                <div class="section-content">
+                    <div class="row">
+                        <div class="col-lg-12 text-center section-head">
+                            <h3 class="h3"><span class="text-primary">🎵 Calm Music</span></h3>
+							<div class="rdx-separator-outer "><div class="rdx-separator bg-primary style-liner"></div></div>
+                            <div class="clear"></div>
+                            <p>Listen to soothing music, choose your mood, and personalize your session.</p>
+                        </div>
+                    </div>
+					
+					<div class="row">
+						<div class="col-lg-8 col-md-10 mx-auto">
+							<!-- Mood Questionnaire -->
+							<div class="mood-section">
+								<div class="mood-title">How are you feeling right now?</div>
+								<div class="mood-options">
+									<button class="mood-btn" onclick="selectMood('Calm')">Calm</button>
+									<button class="mood-btn" onclick="selectMood('Stressed')">Stressed</button>
+									<button class="mood-btn" onclick="selectMood('Sad')">Sad</button>
+									<button class="mood-btn" onclick="selectMood('Tired')">Tired</button>
+									<button class="mood-btn" onclick="selectMood('Happy')">Happy</button>
+									<button class="mood-btn" onclick="selectMood('Anxious')">Anxious</button>
+								</div>
+								<div id="mood-recommendation"></div>
+							</div>
+
+							<!-- Categories -->
+							<div class="categories">
+								<button class="category-btn" onclick="selectCategory('Ambient & Chillout Music')">Ambient & Chillout Music</button>
+								<button class="category-btn" onclick="selectCategory('Instrumental Classical Music')">Instrumental Classical Music</button>
+								<button class="category-btn" onclick="selectCategory('Uplifting Acoustic or Soft Pop')">Uplifting Acoustic or Soft Pop</button>
+							</div>
+
+							<!-- Music Player -->
+							<div class="music-player-container">
+								<div class="music-title" id="musicTitle">Select a track</div>
+								<audio id="audioPlayer" controls style="width:100%">
+									<source id="audioSource" src="" type="audio/mp3">
+									Your browser does not support the audio element.
+								</audio>
+								<div class="music-controls">
+									<label for="volume">🎚️ Volume</label>
+									<input type="range" id="volume" min="0" max="1" step="0.01" value="0.7" style="width:120px">
+								</div>
+								<div class="session-btns">
+									<button class="session-btn" onclick="setSession(5)">5 min</button>
+									<button class="session-btn" onclick="setSession(10)">10 min</button>
+									<button class="session-btn" onclick="setSession(15)">15 min</button>
+								</div>
+								<div class="music-timer" id="musicTimer">Session: ∞</div>
+							</div>
+
+							<!-- Playlist -->
+							<ul class="playlist" id="playlist"></ul>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Content END-->
+    <button class="scroltop fa fa-caret-up" ></button>
+</div>
+<script src="../js/jquery.min.js"></script>
+<script src="../plugins/bootstrap/js/popper.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="../plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+<script src="../plugins/magnific-popup/magnific-popup.js"></script>
+<script src="../plugins/counter/waypoints-min.js"></script>
+<script src="../plugins/counter/counterup.min.js"></script>
+<script src="../plugins/imagesloaded/imagesloaded.js"></script>
+<script src="../plugins/masonry/masonry-3.1.4.js"></script>
+<script src="../plugins/masonry/masonry.filter.js"></script>
+<script src="../plugins/owl-carousel/owl.carousel.js"></script>
+<script src="../js/custom.js"></script>
+<script src="../js/dz.carousel.js"></script>
+<script src="../js/dz.ajax.js"></script>
+  <script>
+    // Local music data
+    const musicData = {
+      'Ambient & Chillout Music': [
+        {
+          title: 'Golden Moment',
+          file: 'Ambient & Chillout Music/the-downtempo-abstract_golden-moment-11256.mp3'
+        },
+        {
+          title: 'Jazzy Abstract Beat',
+          file: 'Ambient & Chillout Music/jazzy-abstract-beat_chops-11254.mp3'
+        }
+      ],
+      'Instrumental Classical Music': [
+        {
+          title: 'Earthquake (Emotional Inspiring Epic Trailer)',
+          file: 'Instrumental Classical Music/emotional-inspiring-epic-trailer_earthquake-11258.mp3'
+        },
+        {
+          title: 'Echoes of Purity (Time Technology)',
+          file: 'Instrumental Classical Music/time-technology_echoes-of-purity-11257.mp3'
+        },
+        {
+          title: 'Shadowed Forest (Smooth Abstract Ambient)',
+          file: 'Instrumental Classical Music/smooth-abstract-ambient_shadowed-forest-11253.mp3'
+        }
+      ],
+      'Uplifting Acoustic or Soft Pop': [
+        {
+          title: 'Radiant Veil (Uplifting and Inspiring Corporate)',
+          file: 'Uplifting Acoustic or Soft Pop/uplifting-and-inspiring-corporate_radiant-veil-11255.mp3'
+        }
+      ]
+    };
+
+    let currentCategory = 'Ambient & Chillout Music';
+    let currentTrackIndex = 0;
+    let sessionMinutes = null;
+    let sessionTimer = null;
+    let mood = null;
+
+    function selectCategory(cat) {
+      currentCategory = cat;
+      currentTrackIndex = 0;
+      renderPlaylist();
+      playTrack(0);
+      document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.category-btn').forEach(btn => {if(btn.textContent===cat)btn.classList.add('active')});
+    }
+
+    function renderPlaylist() {
+      const playlist = document.getElementById('playlist');
+      playlist.innerHTML = '';
+      musicData[currentCategory].forEach((track, idx) => {
+        const li = document.createElement('li');
+        li.className = 'playlist-item' + (idx === currentTrackIndex ? ' active' : '');
+        li.innerHTML = `<span class="music-icon">🎵</span> ${track.title}`;
+        li.onclick = () => playTrack(idx);
+        playlist.appendChild(li);
+      });
+      document.getElementById('musicTitle').textContent = musicData[currentCategory][currentTrackIndex].title;
+    }
+
+    function playTrack(idx) {
+      currentTrackIndex = idx;
+      const track = musicData[currentCategory][idx];
+      document.getElementById('audioSource').src = track.file;
+      document.getElementById('audioPlayer').load();
+      document.getElementById('musicTitle').textContent = track.title;
+      renderPlaylist();
+    }
+
+    document.getElementById('volume').addEventListener('input', function() {
+      document.getElementById('audioPlayer').volume = this.value;
+    });
+    document.getElementById('audioPlayer').volume = 0.7;
+
+    function setSession(mins) {
+      sessionMinutes = mins;
+      document.querySelectorAll('.session-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.session-btn').forEach(btn => {if(btn.textContent.includes(mins))btn.classList.add('active')});
+      startSessionTimer();
+    }
+
+    function startSessionTimer() {
+      if (sessionTimer) clearInterval(sessionTimer);
+      let seconds = sessionMinutes * 60;
+      document.getElementById('musicTimer').textContent = `Session: ${sessionMinutes} min`;
+      sessionTimer = setInterval(() => {
+        seconds--;
+        if (seconds <= 0) {
+          clearInterval(sessionTimer);
+          document.getElementById('audioPlayer').pause();
+          document.getElementById('musicTimer').textContent = 'Session complete!';
+        } else {
+          const min = Math.floor(seconds/60);
+          const sec = seconds%60;
+          document.getElementById('musicTimer').textContent = `Session: ${min}:${sec.toString().padStart(2,'0')}`;
+        }
+      }, 1000);
+    }
+
+    function selectMood(selectedMood) {
+      mood = selectedMood;
+      document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.mood-btn').forEach(btn => {if(btn.textContent===selectedMood)btn.classList.add('active')});
+      // Recommend a category based on mood
+      let rec = '';
+      if (mood === 'Calm' || mood === 'Tired') rec = 'Calm';
+      else if (mood === 'Stressed' || mood === 'Anxious') rec = 'Sleep';
+      else if (mood === 'Sad') rec = 'Uplift';
+      else if (mood === 'Happy') rec = 'Focus';
+      document.getElementById('mood-recommendation').textContent = rec ? `Recommended: ${rec}` : '';
+      if (rec) selectCategory(rec);
+    }
+
+    // Default selection
+    selectCategory('Ambient & Chillout Music');
+  </script>
+</body>
+</html> 

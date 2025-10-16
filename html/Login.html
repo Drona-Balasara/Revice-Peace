@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/Login.css" />
+  </head>
+  <body>
+    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark mode">🌙</button>
+    <div class="container">
+      <form class="login-form" onsubmit="handleSubmit(event)">
+        <div class="header">
+          <h1 class="title">Login</h1>
+          <p class="subtitle">to get started</p>
+        </div>
+
+        <div class="form-group">
+          <input
+            type="email"
+            class="input-field"
+            value=""
+            required
+            id="email"
+            placeholder="Email"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="password"
+            class="input-field"
+            placeholder="Password"
+            required
+            id="password"
+          />
+        </div>
+
+        <a href="#" class="forgot-password" onclick="handleForgotPassword()"
+          >Forgot Password?</a
+        >
+        <a href="main.html"></a>  
+        <button type="submit" class="continue-btn">Continue</button>
+
+        <a href="Signup.html" class="register-link" onclick="handleRegister()">
+          New User? <span class="bold">Register</span>
+        </a>
+      </form>
+    </div>
+
+    <script>
+      function handleSubmit(event) {
+        event.preventDefault();
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        console.log("Login attempt:", { email, password });
+        window.location.href = "main.html";
+      }
+
+      function handleForgotPassword() {
+        console.log("Forgot password clicked");
+        alert("Forgot password functionality would be implemented here.");
+      }
+
+      function handleRegister() {
+        window.location.href = "Signup.html";
+      }
+
+      // Theme toggle functionality
+      const themeToggle = document.getElementById('theme-toggle');
+      const body = document.body;
+      // Check localStorage for theme preference
+      let darkMode = localStorage.getItem('darkMode') === 'true';
+      if (darkMode) {
+        body.classList.add('dark-mode');
+        themeToggle.textContent = '☀️';
+        themeToggle.setAttribute('aria-label', 'Toggle light mode');
+      } else {
+        body.classList.remove('dark-mode');
+        themeToggle.textContent = '🌙';
+        themeToggle.setAttribute('aria-label', 'Toggle dark mode');
+      }
+      themeToggle.addEventListener('click', () => {
+        darkMode = !darkMode;
+        localStorage.setItem('darkMode', darkMode);
+        if (darkMode) {
+          body.classList.add('dark-mode');
+          themeToggle.textContent = '☀️';
+          themeToggle.setAttribute('aria-label', 'Toggle light mode');
+        } else {
+          body.classList.remove('dark-mode');
+          themeToggle.textContent = '🌙';
+          themeToggle.setAttribute('aria-label', 'Toggle dark mode');
+        }
+      });
+    </script>
+  </body>
+</html>

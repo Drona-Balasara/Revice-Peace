@@ -1,0 +1,147 @@
+/* ---- Moved from calm-music.html <style> ---- */
+.site-header {
+	background: transparent !important;
+	transition: all 0.3s ease;
+	position: fixed;
+	width: 100%;
+	z-index: 9999;
+}
+.site-header.scrolled {
+	background: rgba(255, 255, 255, 0.95) !important;
+	backdrop-filter: blur(10px);
+	box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+.page-content {
+	padding-top: 100px;
+}
+.logo-header img {
+	transition: all 0.3s ease;
+}
+.site-header.scrolled .logo-header img {
+	filter: brightness(0.8);
+}
+.music-player-container {
+	background: white;
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+	padding: 30px;
+	max-width: 500px;
+	margin: 0 auto 30px auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border: 1px solid #e0e0e0;
+}
+.music-title {
+	font-size: 1.3em;
+	color: #333;
+	font-weight: 600;
+	margin-bottom: 15px;
+	text-align: center;
+}
+.music-controls {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin: 20px 0 15px 0;
+}
+.music-timer {
+	margin: 15px 0 0 0;
+	color: #666;
+	font-size: 1em;
+	text-align: center;
+}
+.session-btns {
+	display: flex;
+	gap: 10px;
+	margin: 15px 0 0 0;
+	justify-content: center;
+}
+.session-btn {
+	background: var(--primary-color, #007bff);
+	color: white;
+	border: none;
+	border-radius: 8px;
+	padding: 8px 18px;
+	font-size: 1em;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+.session-btn:hover {
+	background: var(--primary-hover, #0056b3);
+}
+.session-btn.active {
+	background: #28a745;
+}
+.categories {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	justify-content: center;
+	margin: 30px 0 20px 0;
+}
+.category-btn {
+	background: white;
+	color: #333;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 10px 20px;
+	font-size: 1em;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+.category-btn:hover {
+	background: #f8f9fa;
+}
+.category-btn.active {
+	background: var(--primary-color, #007bff);
+	color: white;
+	border-color: var(--primary-color, #007bff);
+}
+.mood-section {
+	background: white;
+	border-radius: 12px;
+	padding: 25px;
+	margin: 0 auto 30px auto;
+	max-width: 500px;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+	border: 1px solid #e0e0e0;
+}
+.mood-title {
+	font-size: 1.2em;
+	color: #333;
+	font-weight: 600;
+	margin-bottom: 15px;
+	text-align: center;
+}
+.mood-options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: center;
+	margin-bottom: 15px;
+}
+.mood-btn {
+	background: #f8f9fa;
+	color: #333;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 8px 16px;
+	font-size: 1em;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+.mood-btn:hover {
+	background: #e9ecef;
+}
+.mood-btn.active {
+	background: var(--primary-color, #007bff);
+	color: white;
+	border-color: var(--primary-color, #007bff);
+}
+.playlist {
+	margin: 20px 0 0 0;
+	padding: 0;
+	list-style: none;
+	max-width: 500px;
+	margin-left: auto; 

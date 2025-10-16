@@ -1,0 +1,50 @@
+{
+  "name": "revive-peace",
+  "version": "1.0.0",
+  "description": "A comprehensive mental wellness web application with therapeutic features and interactive games",
+  "main": "html/main.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "build": "echo 'No build process needed for static site'",
+    "test": "echo 'No tests specified'",
+    "lint": "echo 'No linting configured'",
+    "deploy": "netlify deploy --prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/revive-peace.git"
+  },
+  "keywords": [
+    "mental-health",
+    "wellness",
+    "therapy",
+    "meditation",
+    "games",
+    "journaling",
+    "binaural-beats",
+    "mindfulness",
+    "stress-relief",
+    "web-app",
+    "javascript",
+    "html5",
+    "css3",
+    "bootstrap"
+  ],
+  "author": "Revive Peace Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yourusername/revive-peace/issues"
+  },
+  "homepage": "https://github.com/yourusername/revive-peace#readme",
+  "devDependencies": {},
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reflex Click - Revive Peace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .game-container {
+            background: transparent;
+            border-radius: 0;
+            padding: 20px;
+            box-shadow: none;
+            text-align: center;
+            max-width: 100%;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        h1 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            color: #2d3748;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .game-area {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 25px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .game-area:hover {
+            border-color: #667eea;
+        }
+
+        .game-area.waiting {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            animation: breathing 4s ease-in-out infinite;
+        }
+
+        .game-area.ready {
+            background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .game-area.clicked {
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+            animation: success 0.5s ease-out;
+        }
+
+        .target {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .target:hover {
+            transform: scale(1.1);
+        }
+
+        .target.small {
+            width: 60px;
+            height: 60px;
+            font-size: 18px;
+        }
+
+        .target.large {
+            width: 100px;
+            height: 100px;
+            font-size: 30px;
+        }
+
+        .target.green {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+
+        .target.blue {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+        }
+
+        .target.orange {
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+        }
+
+        .target.purple {
+            background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%);
+        }
+
+        .waiting-message {
+            font-size: 24px;
+            color: #2d3748;
+            font-weight: 500;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+
+        .ready-message {
+            font-size: 28px;
+            color: #c53030;
+            font-weight: bold;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .result-message {
+            font-size: 20px;
+            color: #22543d;
+            font-weight: 500;
+            margin: 10px 0;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(160, 174, 192, 0.3);
+        }
+
+        .back-btn:hover {
+            box-shadow: 0 6px 16px rgba(160, 174, 192, 0.4);
+        }
+
+        .difficulty-selector {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-btn {
+            padding: 8px 16px;
+            font-size: 14px;
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+            color: #4a5568;
+        }
+
+        .difficulty-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .history {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        @keyframes breathing {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes success {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            .game-container {
+                padding: 20px;
+            }
+
+            .game-area {
+                height: 250px;
+            }
+
+            .target {
+                width: 60px;
+                height: 60px;
+                font-size: 18px;
+            }
+
+            .target.small {
+                width: 45px;
+                height: 45px;
+                font-size: 14px;
+            }
+
+            .target.large {
+                width: 80px;
+                height: 80px;
+                font-size: 24px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>⚡ Reflex Click</h1>
+        
+        <div class="instructions">
+            Click the target as quickly as possible when it appears! 
+            Stay calm and focused - your reaction time will improve with practice.
+        </div>
+
+        <div class="difficulty-selector">
+            <button class="difficulty-btn active" onclick="setDifficulty('easy')">Easy</button>
+            <button class="difficulty-btn" onclick="setDifficulty('medium')">Medium</button>
+            <button class="difficulty-btn" onclick="setDifficulty('hard')">Hard</button>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="bestTime">--</div>
+                <div class="stat-label">Best Time</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="avgTime">--</div>
+                <div class="stat-label">Average</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="attempts">0</div>
+                <div class="stat-label">Attempts</div>
+            </div>
+        </div>
+
+        <div class="game-area" id="gameArea" onclick="handleClick()">
+            <div class="waiting-message" id="waitingMessage">Breathe deeply and wait...</div>
+        </div>
+
+        <div class="result-message" id="resultMessage"></div>
+
+        <div class="controls">
+            <button onclick="startGame()" id="startBtn">🎮 Start Test</button>
+            <button onclick="resetStats()" id="resetBtn">🔄 Reset Stats</button>
+        </div>
+
+        <div class="history" id="history">
+            <div style="font-weight: bold; margin-bottom: 10px; color: #4a5568;">Recent Results</div>
+            <div id="historyList"></div>
+        </div>
+
+        <button class="back-btn" onclick="window.location.href='games.html'">← Back to Games</button>
+    </div>
+
+    <script>
+        // Game state
+        let isWaiting = false;
+        let isReady = false;
+        let startTime = 0;
+        let reactionTimes = [];
+        let attempts = 0;
+        let bestTime = Infinity;
+        let difficulty = 'easy';
+        let minDelay = 1000;
+        let maxDelay = 3000;
+        let targetSize = 'normal';
+
+        // Initialize game
+        function initGame() {
+            loadStats();
+            updateDisplay();
+        }
+
+        // Set difficulty
+        function setDifficulty(level) {
+            difficulty = level;
+            
+            // Update active button
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Set parameters based on difficulty
+            switch(difficulty) {
+                case 'easy':
+                    minDelay = 1500;
+                    maxDelay = 4000;
+                    targetSize = 'large';
+                    break;
+                case 'medium':
+                    minDelay = 1000;
+                    maxDelay = 3000;
+                    targetSize = 'normal';
+                    break;
+                case 'hard':
+                    minDelay = 500;
+                    maxDelay = 2000;
+                    targetSize = 'small';
+                    break;
+            }
+        }
+
+        // Start the game
+        function startGame() {
+            if (isWaiting || isReady) return;
+            
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('resultMessage').textContent = '';
+            
+            startWaitingPhase();
+        }
+
+        // Start waiting phase
+        function startWaitingPhase() {
+            isWaiting = true;
+            const gameArea = document.getElementById('gameArea');
+            const waitingMessage = document.getElementById('waitingMessage');
+            
+            gameArea.className = 'game-area waiting';
+            waitingMessage.textContent = 'Breathe deeply and wait...';
+            
+            // Random delay before target appears
+            const delay = Math.random() * (maxDelay - minDelay) + minDelay;
+            
+            setTimeout(() => {
+                if (isWaiting) {
+                    showTarget();
+                }
+            }, delay);
+        }
+
+        // Show the target
+        function showTarget() {
+            isWaiting = false;
+            isReady = true;
+            startTime = Date.now();
+            
+            const gameArea = document.getElementById('gameArea');
+            const waitingMessage = document.getElementById('waitingMessage');
+            
+            gameArea.className = 'game-area ready';
+            waitingMessage.textContent = 'CLICK NOW!';
+            waitingMessage.className = 'ready-message';
+            
+            // Create target
+            const target = document.createElement('div');
+            target.className = `target ${targetSize}`;
+            target.id = 'target';
+            
+            // Random position
+            const colors = ['green', 'blue', 'orange', 'purple'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            target.classList.add(randomColor);
+            
+            const maxX = gameArea.offsetWidth - target.offsetWidth;
+            const maxY = gameArea.offsetHeight - target.offsetHeight;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            
+            target.style.left = x + 'px';
+            target.style.top = y + 'px';
+            target.textContent = '🎯';
+            
+            gameArea.appendChild(target);
+        }
+
+        // Handle click
+        function handleClick() {
+            if (!isReady) return;
+            
+            const reactionTime = Date.now() - startTime;
+            recordResult(reactionTime);
+            
+            // Show success animation
+            const gameArea = document.getElementById('gameArea');
+            gameArea.className = 'game-area clicked';
+            
+            // Remove target
+            const target = document.getElementById('target');
+            if (target) {
+                target.remove();
+            }
+            
+            // Show result
+            const resultMessage = document.getElementById('resultMessage');
+            resultMessage.textContent = `Reaction time: ${reactionTime}ms`;
+            
+            // Reset after showing result
+            setTimeout(() => {
+                resetGameArea();
+                document.getElementById('startBtn').disabled = false;
+            }, 1500);
+        }
+
+        // Record result
+        function recordResult(time) {
+            reactionTimes.push(time);
+            attempts++;
+            
+            if (time < bestTime) {
+                bestTime = time;
+            }
+            
+            updateStats();
+            updateHistory(time);
+        }
+
+        // Update stats
+        function updateStats() {
+            const avgTime = reactionTimes.length > 0 
+                ? Math.round(reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length)
+                : 0;
+            
+            document.getElementById('bestTime').textContent = bestTime === Infinity ? '--' : bestTime + 'ms';
+            document.getElementById('avgTime').textContent = avgTime === 0 ? '--' : avgTime + 'ms';
+            document.getElementById('attempts').textContent = attempts;
+        }
+
+        // Update history
+        function updateHistory(time) {
+            const historyList = document.getElementById('historyList');
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
+            
+            const date = new Date().toLocaleTimeString();
+            historyItem.innerHTML = `
+                <span>Attempt ${attempts}</span>
+                <span>${time}ms</span>
+            `;
+            
+            historyList.insertBefore(historyItem, historyList.firstChild);
+            
+            // Keep only last 10 results
+            if (historyList.children.length > 10) {
+                historyList.removeChild(historyList.lastChild);
+            }
+        }
+
+        // Reset game area
+        function resetGameArea() {
+            isWaiting = false;
+            isReady = false;
+            
+            const gameArea = document.getElementById('gameArea');
+            const waitingMessage = document.getElementById('waitingMessage');
+            
+            gameArea.className = 'game-area';
+            waitingMessage.textContent = 'Breathe deeply and wait...';
+            waitingMessage.className = 'waiting-message';
+            
+            const target = document.getElementById('target');
+            if (target) {
+                target.remove();
+            }
+        }
+
+        // Reset stats
+        function resetStats() {
+            reactionTimes = [];
+            attempts = 0;
+            bestTime = Infinity;
+            
+            document.getElementById('historyList').innerHTML = '';
+            document.getElementById('resultMessage').textContent = '';
+            
+            updateStats();
+            saveStats();
+        }
+
+        // Update display
+        function updateDisplay() {
+            updateStats();
+        }
+
+        // Save stats to localStorage
+        function saveStats() {
+            const stats = {
+                reactionTimes,
+                attempts,
+                bestTime,
+                history: document.getElementById('historyList').innerHTML
+            };
+            localStorage.setItem('reflexStats', JSON.stringify(stats));
+        }
+
+        // Load stats from localStorage
+        function loadStats() {
+            const saved = localStorage.getItem('reflexStats');
+            if (saved) {
+                const stats = JSON.parse(saved);
+                reactionTimes = stats.reactionTimes || [];
+                attempts = stats.attempts || 0;
+                bestTime = stats.bestTime || Infinity;
+                
+                if (stats.history) {
+                    document.getElementById('historyList').innerHTML = stats.history;
+                }
+            }
+        }
+
+        // Auto-save stats periodically
+        setInterval(saveStats, 5000);
+
+        // Initialize the game when page loads
+        initGame();
+
+        // Call this function when the reflex click game ends
+        function recordReflexGameResult(won, score, word) {
+            const gameStats = JSON.parse(localStorage.getItem('reflexStats')) || {
+                totalGames: 0, totalWins: 0, totalScore: 0, bestScore: 0, bestScoreDate: null, games: []
+            };
+            const game = {
+                word: word || 'Reflex Click',
+                won: won,
+                score: score,
+                date: new Date().toISOString()
+            };
+            gameStats.games.push(game);
+            gameStats.totalGames++;
+            gameStats.totalScore += score;
+            if (won) gameStats.totalWins++;
+            if (score > gameStats.bestScore) {
+                gameStats.bestScore = score;
+                gameStats.bestScoreDate = game.date;
+            }
+            localStorage.setItem('reflexStats', JSON.stringify(gameStats));
+        }
+        // Example usage: recordReflexGameResult(true, 100, 'Reflex 1');
+    </script>
+</body>
+</html> 

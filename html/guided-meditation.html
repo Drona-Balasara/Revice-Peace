@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guided Meditation</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body>
+    <!-- header -->
+    <header class="site-header header-style-5 mo-left light">
+        <div class="sticky-header main-bar-wraper navbar-expand-lg">
+            <div class="main-bar clearfix ">
+                <div class="container clearfix">
+                    <div class="row align-items-center">
+                        <!-- Logo on the left -->
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="logo-header">
+                                <a href="main.html"><img src="../images/logo.png" width="193" height="89" alt=""></a>
+                            </div>
+                        </div>
+                        <!-- Navigation Menu on the right -->
+                        <div class="col-lg-8 col-md-8 col-sm-12 text-right">
+                            <nav class="navbar navbar-expand-lg justify-content-end">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="main.html">Home</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                                            Features
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="https://notknown.app.n8n.cloud/webhook/6d3062ae-c732-4b6a-a8c4-a8a4e1bc2872/chat">
+                                                <i class="fa fa-comments"></i> AI Chat Bot
+                                            </a>
+                                            <a class="dropdown-item" href="journaling.html">
+                                                <i class="fa fa-book"></i> Journaling
+                                            </a>
+                                            <a class="dropdown-item" href="binaural.html">
+                                                <i class="fa fa-headphones"></i> Binaural Beats
+                                            </a>
+                                            <a class="dropdown-item" href="therapy.html">
+                                                <i class="fa fa-heart"></i> Therapy
+                                            </a>
+                                            <a class="dropdown-item" href="games.html">
+                                                <i class="fa fa-gamepad"></i> Games
+                                            </a>
+                                            <a class="dropdown-item" href="dashboard.html">
+                                                <i class="fa fa-tachometer"></i> Dashboard
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                                            Games
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="games.html">
+                                                <i class="fa fa-gamepad"></i> All Games
+                                            </a>
+                                            <a class="dropdown-item" href="word-quest.html">
+                                                <i class="fa fa-puzzle-piece"></i> Word Quest
+                                            </a>
+                                            <a class="dropdown-item" href="hangman.html">
+                                                <i class="fa fa-user-secret"></i> Hangman
+                                            </a>
+                                            <a class="dropdown-item" href="simon-says.html">
+                                                <i class="fa fa-circle"></i> Simon Says
+                                            </a>
+                                            <a class="dropdown-item" href="maze-navigation.html">
+                                                <i class="fa fa-sitemap"></i> Maze Navigation
+                                            </a>
+                                            <a class="dropdown-item" href="puzzle-challenge.html">
+                                                <i class="fa fa-th"></i> Puzzle Challenge
+                                            </a>
+                                            <a class="dropdown-item" href="reflex-click.html">
+                                                <i class="fa fa-mouse-pointer"></i> Reflex Click
+                                            </a>
+                                            <a class="dropdown-item" href="zen-garden.html">
+                                                <i class="fa fa-tree"></i> Zen Garden
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="help.html">Help</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="Login.html">Login</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="Signup.html">Sign Up</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="page-content main-container" style="margin: 0 auto; padding: 40px 0; width: 100%;">
+        <section class="hero-section text-center" style="margin-bottom: 32px; width: 100%; padding-left: 24px; padding-right: 24px;">
+            <h1 class="hero-title">Guided Meditation</h1>
+            <p class="hero-subtitle">Let a gentle voice lead you through a calming, restorative meditation experience.</p>
+        </section>
+        <section class="card-style text-center" style="padding: 40px 0 32px 0; margin-bottom: 32px; width: 100%; margin: 0 auto; border-radius: 0; padding-left: 24px; padding-right: 24px;">
+            <img src="../images/gallery/img3.jpg" alt="Guided Meditation" class="feature-img img-rounded" style="display: block; margin: 0 auto 24px auto; width: 100%; height: 400px; object-fit: cover; box-shadow: 0 4px 24px rgba(58,141,222,0.10); border-radius: 0;">
+            <div class="breathing-section text-center m-b30" style="margin-bottom: 48px; width: 100%; margin: 0 auto;">
+                <p class="lead">Breathe with the circle</p>
+                <div class="breathing-circle" id="breathingCircle" style="margin: 0 auto 48px auto;"></div>
+            </div>
+            <h4 class="text-primary m-b20" style="width: 100%; margin: 0 auto 32px auto;">Step-by-Step Guided Meditation</h4>
+            <div class="progress-bar-container" style="margin: 0 auto 18px auto; width: 100%; border-radius: 8px;">
+                <div class="progress-bar" id="progressBarGuided" style="width: 0%;"></div>
+            </div>
+            <ol class="lead m-b20" style="padding-left: 2em; text-align: left; width: 100%; margin: 0 auto 24px auto;">
+                <li><label style="display: flex; align-items: center;"><input type="checkbox" class="step-checkbox"><span class="checkmark"></span>Find a quiet, comfortable place to sit or lie down.</label></li>
+                <li><label style="display: flex; align-items: center;"><input type="checkbox" class="step-checkbox"><span class="checkmark"></span>Close your eyes and take a few deep breaths.</label></li>
+                <li><label style="display: flex; align-items: center;"><input type="checkbox" class="step-checkbox"><span class="checkmark"></span>Press play on your guided meditation audio or app.</label></li>
+                <li><label style="display: flex; align-items: center;"><input type="checkbox" class="step-checkbox"><span class="checkmark"></span>Follow the voice instructions, letting go of tension.</label></li>
+                <li><label style="display: flex; align-items: center;"><input type="checkbox" class="step-checkbox"><span class="checkmark"></span>When finished, gently return your awareness to the room.</label></li>
+            </ol>
+            <div class="feature-highlights m-b20" style="margin-bottom: 64px; width: 100%; margin: 0 auto;">
+                <span class="highlight-tag">Guided</span>
+                <span class="highlight-tag">Relaxation</span>
+                <span class="highlight-tag">Stress Relief</span>
+                <span class="highlight-tag">Support</span>
+            </div>
+            <div class="motivational-quote text-center m-b20" style="margin-top: 32px; margin-bottom: 24px; width: 100%; margin: 0 auto;">
+                "Let your mind be guided to a place of peace."
+            </div>
+            <!-- Testimonial Carousel -->
+            <div class="testimonial-carousel m-b20" style="margin-bottom: 24px; width: 100%; margin: 0 auto;">
+                <div id="testimonialGuided">“Guided meditation helps me relax deeply.” – Saanvi</div>
+            </div>
+            <!-- Achievement Badges -->
+            <div class="text-center m-b30" style="margin-bottom: 0; width: 100%; margin: 0 auto;">
+                <span class="achievement-badge" title="First Session">🌱</span>
+                <span class="achievement-badge" title="5-Day Streak">🌟</span>
+                <span class="achievement-badge" title="Consistency">💎</span>
+            </div>
+        </section>
+        <div class="text-center m-t30" style="width: 100%; margin: 0 auto; padding-left: 24px; padding-right: 24px;">
+            <a href="meditation.html" class="btn btn-primary m-r10">Back to Meditation</a>
+            <a href="main.html" class="btn btn-outline-primary">Back to Home</a>
+        </div>
+    </main>
+    <script>
+    // Step Progress Bar Logic (checkbox-based)
+    const checkboxes = document.querySelectorAll('.step-checkbox');
+    const progressBar = document.getElementById('progressBarGuided');
+    function updateProgressBar() {
+        const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+        progressBar.style.width = (checked / checkboxes.length * 100) + '%';
+    }
+    checkboxes.forEach(cb => cb.addEventListener('change', updateProgressBar));
+    // Simple Testimonial Carousel (static for demo)
+    const testimonials = [
+        '“Guided meditation helps me relax deeply.” – Saanvi',
+        '“I love the gentle voice and calming music.” – Priya',
+        '“A wonderful way to end my day.” – Raj'
+    ];
+    let tIdx = 0;
+    setInterval(() => {
+        tIdx = (tIdx+1)%testimonials.length;
+        document.getElementById('testimonialGuided').innerText = testimonials[tIdx];
+    }, 4000);
+    </script>
+</body>
+</html> 
